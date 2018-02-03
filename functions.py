@@ -418,7 +418,7 @@ def lorem_ipsum(words=0, print_output=False):
     else:
         return output
                 
-#statistical_analysis - allows a data set to be inputed by the enduser; use in conjunction with other stat analysis functions
+#statistical_analysis_input - allows a data set to be inputed by the enduser; use in conjunction with other stat analysis functions
 #length - how many data points to be inputed by the user, default allows the user to pick; bFrequency - if you want to allow the user to quickly add a single number multiple times to a set, set this to True
 def statistical_analysis_input(length=1, bFrequency=False):
     data_final = []
