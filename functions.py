@@ -1,4 +1,4 @@
-import random
+from random import randint
 
 #This file was made by badooga so that you don't have to make these noob functions; just import what you need from this module into whatever file you are using and you'll be able to use these functions with ease. Made by a python novice, so if you look at the code and think "that's inefficient", that's probably why. But it *should* work, so it's not a problem - if for some reason something goes wrong though, that's a different story.
 #You are free to distribute this file whoever and wherever you want - just give me credit when doing so
@@ -7,6 +7,134 @@ import random
 
 #for all input-related functions - prompt = what you want to ask
 
+#Data - used in the statistical analysis functions, or can be used by itself; takes a list of numbers as its parameter when called, allowing statistical information to be derived via these methods
+class Data(object):
+    def __init__(self, data):
+        self.data = sorted(data) #sorts the data list automatically so that you don't have to
+        self.data_len = len(self.data)
+        frequency_dict = {x:0 for x in self.data}
+        for point in self.data:
+            frequency_dict[point] += 1
+        self.frequency_dict = frequency_dict
+    def median(self):
+        if self.data_len == 2:
+            median = (self.data[0] + self.data[1])/2
+        elif self.data_len % 2 == 0:
+            median = (self.data[1 + int(self.data_len/2)] + self.data[-1 + int(self.data_len/2)])/2
+        else:
+            median = self.data[int(self.data_len/2 - .5)]
+        return median
+        
+    def mean(self):
+        mean = 0
+        for data_point in self.data:
+            mean += data_point/self.data_len
+        return mean
+
+    def mode(self, string=False): #string - if you want this method to return a string of the modes instead of a list of them, then make this parameter True when calling the method
+        counter = 0
+        mode_list = []
+        for data_point in self.frequency_dict.keys():
+            if self.frequency_dict[data_point] >= counter and data_point not in mode_list:
+                counter = self.frequency_dict[data_point]
+                mode_list.append(data_point)
+        i = 0
+        while i < len(mode_list):
+            if self.frequency_dict[mode_list[i]] == 1:
+                del mode_list[i]
+            else:
+                i += 1
+        if mode_list == []:
+            mode_list = None
+            return mode_list
+        if string==True:
+            if len(mode_list) > 1:
+                mode_string = ""
+                for k in range(len(mode_list)):
+                    if k == 0:
+                        mode_string += "{}".format(mode_list[k])
+                    else:
+                        mode_string += ", {}".format(mode_list[k])
+            else:
+                mode_string = str(mode_list[0])
+            return mode_string
+        else:
+            return mode_list
+    def variance(self,pop_or_samp=True): #pop_or_samp - population or standard deviation, True is population, False is sample
+        s_mean = self.mean()
+        variance = 0
+        n = self.data_len
+        if not pop_or_samp:
+            n = n - 1
+        for i in self.data:
+            variance += 1/n * (i - s_mean)**2
+        return variance
+
+    def standard_deviation(self,pop_or_samp=True): #pop_or_samp - see above
+        return self.variance(pop_or_samp) ** .5
+
+    def range(self): #fun fact - there is no need for a minimum or maximum method; just use self.data[0] for the minimum and self.data[-1] for the maximum
+        return self.data[-1] - self.data[0]
+
+    def q1(self):
+        if self.data_len % 2 == 0:
+            splice = int(self.data_len/2)
+        else:
+            splice = int(self.data_len/2-.5)
+        first_half = self.data[:splice]
+        if self.data_len == 2:
+            q1 = self.data[0]
+        elif self.data_len == 3:
+            q1 = (self.data[0] + self.data[1])/2
+        elif len(first_half) % 2 == 0:
+            if len(first_half) == 2:
+                q1 = (first_half[0] + first_half[1])/2
+            else:
+                q1 = (first_half[1 + int(len(first_half)/2)] + first_half[-1 + int(len(first_half)/2)])/2
+        else:
+            q1 = first_half[int(len(first_half)/2 - .5)]
+        return q1
+
+    def q3(self):
+        if self.data_len % 2 == 0:
+            splice = int(self.data_len/2+1)
+        else:
+            splice = int(self.data_len/2+.5)
+        second_half = self.data[splice:]
+        if self.data_len == 2:
+            q3 = self.data[1]
+        elif self.data_len == 3:
+            q3 = (self.data[1] + self.data[2])/2
+        elif len(second_half) % 2 == 0:
+            if len(second_half) == 2:
+                q3 = (second_half[0] + second_half[1])/2
+            else:
+                q3 = (second_half[int(1 + len(second_half)/2)] + second_half[int(-1 + len(second_half)/2)])/2
+        else:
+            q3 = second_half[int(len(second_half)/2 - .5)]
+        return q3
+
+    def iqr(self): #interquartile range
+        return self.q3() - self.q1()
+
+    def z_score(self, number, pop_or_samp=True): #z_score - calculates the z-score of a given number; pop_or_samp - see above
+        return (number - self.mean())/self.standard_deviation()
+
+    def outliers(self): #returns a list of data outliers according to the following definition: an outlier is a point which falls more than 1.5 times the interquartile range above the third quartile or below the first quartile.
+        upper_bound = self.q3() + 1.5 * self.iqr()
+        lower_bound = self.q1() - 1.5 * self.iqr()
+        outliers = []
+        for point in self.data:
+            if point > upper_bound or point < lower_bound:
+                outliers.append(point)
+        return outliers
+    
+    def frequency(self, number): #obtains the frequency of a given number within the data list; if it's not present, 0 is returned; if you just want to detect if a number is in the list or not, try using bool() on the output or using a conditional for > 1
+        try:
+            return self.frequency_dict[number]
+        except KeyError:
+            return 0
+        
 #input_num - asks for input, only accepts a number that satisfies the parameter-specified conditions repeats prompt until it gets one
 #float_or_int - if you want the input number to be a float or int (False is either); bound_lower and bound_upper - the lower and upper bounds that a number must be within, False is infinity, double False means bound check is ignored completely; inclusive_lower and inclusive_upper - if a particular bound is inclusive or not (i.e. greater than or equal to or just greater than), bool; convert_string - if set to True, returns the str() version of the number
 def input_num(prompt, float_or_int=False, bound_lower=False, bound_upper=False, inclusive_lower=True, inclusive_upper=True, convert_string=False):
@@ -175,12 +303,11 @@ def XdY_Z_roller():
         current_dice = current_dice + "{}d{}".format(rolls[-1], sides[-1])
         print(current_dice)
         add_more = input_question("Add more types of dice?", ["yes", "no"])
-    mod = input_num("Modifier: ", int)
-    result = mod
-    for i in range(1, len(rolls)):
-        for dice in range(rolls[i]):
-            result = result + random.randint(1, sides[i])
-        print(result)
+    result = input_num("Modifier: ", int)
+    for i in range(len(sides)):
+        for rolls_made in range(rolls[i]):
+            result = result + randint(1, sides[i])
+    print(result)
 
 #the following dicts are to be used by the metric_conversions function
 
@@ -290,5 +417,35 @@ def lorem_ipsum(words=0, print_output=False):
         print(output)
     else:
         return output
+                
+#statistical_analysis - allows a data set to be inputed by the enduser; use in conjunction with other stat analysis functions
+#length - how many data points to be inputed by the user, default allows the user to pick; bFrequency - if you want to allow the user to quickly add a single number multiple times to a set, set this to True
+def statistical_analysis_input(length=1, bFrequency=False):
+    data_final = []
+    if length < 2:
+        length = input_num("Length of data set: ", int, 1, False, False)
+    for i in range(length):
+        data_point = input_num("Data value {}: ".format(i+1))
+        if bFrequency:
+            frequency = input_num("Frequency: ", int, 1)
+            for j in range(frequency):
+                data_final.append(data_point)
+        else:
+            data_final.append(data_point)
 
-lorem_ipsum(69*2, True)
+    return Data(data_final)
+
+#statistical_analysis_print - prints out the following information about a list of data (must be a Data object)
+#d - the Data object you want to use; obtain via statistical_analysis_input() or manually
+def statistical_analysis_print(d):
+    print("Median: " + str(d.median()))
+    print("Mean: " + str(d.mean()))
+    print("Mode: " + str(d.mode(True)))
+    print("Minimum: " +  str(d.data[0]))
+    print("Maximum: " + str(d.data[-1]))
+    print("Range: " + str(d.range()))
+    print("Q1: " + str(d.q1()))
+    print("Q3: " + str(d.q3()))
+    print("Interquartile Range: " + str(d.iqr()))
+    print("Variance: " + str(d.variance()))
+    print("Standard Devation: " + str(d.standard_deviation()))
