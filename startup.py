@@ -15,6 +15,7 @@ elif hour > 18:
     print("Good evening, {}.".format(user))
 else:
     print("Good afternoon, {}.".format(user))
+    
 while loop:
     choice = pstr("What music playlist would you like to play today (enter None for no music)? ", True, 1, True)
     if choice == "None":
