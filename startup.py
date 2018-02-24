@@ -1,4 +1,5 @@
-import os
+#If you have a Windows Media Player Playlist in the default folder, this program can open it for you. Just use the Task Scheduler to have this file open on startup.
+from os import startfile
 from getpass import getuser
 from time import ctime
 from functions import input_str as pstr
@@ -20,7 +21,7 @@ while loop:
         loop = False
     else:
         try:
-            os.startfile(filepath + choice + ".wpl")
+            startfile(filepath + choice + ".wpl")
             loop = False
         except:
             print("Error: File not found.")
