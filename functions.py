@@ -421,31 +421,6 @@ def metric_conversions(quantity, unit1, unit2):
     except:
         #if you are using this function in conjunction with your own function, treat False as an error
         return False
-
-#lorem_ipsum - prints a string 
-#words - number of words this function will generate; if words is not specified (or a number less than 1 is entered), it will ask the user for input instead; print_output - if True, it will print the variable output instead of returning it (useful if you are the enduser and want to just copy the text from the cmd or something like that)
-def lorem_ipsum(words=0, print_output=False):
-    if words < 1:
-        str_length = input_num("Words: ", int, 1)
-    else:
-        str_length = words
-    string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".split(" ")
-    output = ""
-    loop = 0
-    for i in range(str_length):
-        j = i
-        while j > 68:
-            j = j - 69
-        output += string[j] + " "
-    output = output.rstrip()
-    if output[-1] == ",":
-        output = output.rstrip(",")
-    if not output[-1] == ".":
-        output += "."
-    if print_output:
-        print(output)
-    else:
-        return output
                 
 #statistical_analysis_input - allows a data set to be inputed by the enduser; use in conjunction with other stat analysis functions
 #length - how many data points to be inputed by the user, default allows the user to pick; bFrequency - if you want to allow the user to quickly add a single number multiple times to a set, set this to True
