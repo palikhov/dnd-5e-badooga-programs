@@ -2,7 +2,7 @@ from random import randint
 from subprocess import check_call
 
 #This file was made by badooga for your convenience; just import what you need from this module into whatever file you are using and you'll be able to use these functions with ease.
-#You are free to distribute this file whoever and wherever you want - just give me credit when doing so
+#You are free to distribute this file wherever you want - just give me credit when doing so
 #Anyway, the comments below document how the code actually works, if you are interested.
 
 
