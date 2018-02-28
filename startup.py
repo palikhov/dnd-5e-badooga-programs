@@ -8,6 +8,7 @@ from functions import input_str as pstr
 from functions import input_question as pq
 from functions import input_num as pn
 from re import split as rsplit
+from webbrowser import open_new_tab
 
 hour = int(ctime().split()[3][:2])
 
@@ -30,20 +31,20 @@ else:
 #keep in mind that for user input, I'm starting at 1 and not 0 for the sake of typing ease
 def music(playlist_extension="", song_extension=""): #by default file extensions must be inputed manually by user; the other option is that you can put in a file extension as the parameter at the bottom where the function is called, including the '.'
     choice = pn("Would you like to play a playlist (1), a specific song (2), or remain silent (3)? ", int, 1, 3)
-    loop = [False, False, False]
-    loop[choice - 1] = True
+    mcommand = [False, False, False]
+    mcommand[choice - 1] = True
 
     song_list = sorted(listdir(filepath_songs), key=natural_key)
     playlist_list = sorted(listdir(filepath_playlists), key=natural_key)
 
-    while loop[0]:
+    if mcommand[0]:
         choice = pstr("What music playlist would you like to play (enter 0 to cancel, -1 for a random playlist)? ", True, 1, True)
         if choice == "0":
-            loop[0] = False
+            mcommand[0] = False
         else:
             try:
                 startfile(filepath_playlists + choice + playlist_extension)
-                loop[0] = False
+                mcommand[0] = False
             except:
                 try: #if you typed in an int and it wasn't found as a music playlist, this program will automatically iterate through the folder and open that number
                     if int(choice) == float(choice) and int(choice) >= 1:
@@ -52,17 +53,17 @@ def music(playlist_extension="", song_extension=""): #by default file extensions
                         startfile(filepath_playlists + rchoice(playlist_list))
                     else:
                         startfile(filepath_playlists + playlist_list[playlist_choice])
-                    loop[0] = False
+                    mcommand[0] = False
                 except:
                     print("Error: File not found.")
-    while loop[1]:
+    elif mcommand[1]:
         choice = pstr("What song would you like to play (enter 0 to cancel, -1 for a random song)? ", True, 1, True)
         if choice == "0":
-            loop[1] = False
+            mcommand[1] = False
         else:
             try:
                 startfile(filepath_songs + choice + song_extension)
-                loop[1] = False
+                mcommand[1] = False
             except:
                 try: #if you typed in an int and it wasn't found as a music file, this program will automatically iterate through the folder and open that number
                     if int(choice) == float(choice) and int(choice) >= 1:
@@ -71,18 +72,26 @@ def music(playlist_extension="", song_extension=""): #by default file extensions
                         startfile(filepath_songs + rchoice(song_list))
                     else:
                         startfile(filepath_songs + song_list[song_choice])
-                    loop[1] = False
+                    mcommand[1] = False
                 except:
                     print("Error: File not found.")
     choice = ""
 
+def website():
+    choice = pstr("What site would you like to visit (enter 0 to cancel)? ", True, 1, True).lower()
+    if choice != "0":
+        open_new_tab("http://www." + choice + ".com")
+    choice = ""
+
 exit = False
 while not exit:
-    print("\nCommands: Quit (1), Music (2)")
+    print("\nCommands: Quit (1), Music (2), Website (3)")
     command = pn("Command: ", int, 1)
     if command == 1:
         exit = True
     elif command == 2:
         music()
+    elif command == 3:
+        website()
     else:
         print("Invalid command. Please try again.")
