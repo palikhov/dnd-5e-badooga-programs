@@ -41,7 +41,7 @@ class Data(object):
                 mode_list.append(data_point)
         i = 0
         while i < len(mode_list):
-            if self.frequency_dict[mode_list[i]] == 1:
+            if self.frequency_dict[mode_list[i]] < counter:
                 del mode_list[i]
             else:
                 i += 1
@@ -451,8 +451,26 @@ def statistical_analysis_print(d):
     print("Variance: " + str(d.variance()))
     print("Standard Devation: " + str(d.standard_deviation()))
 
-#copy2clip - copies given text to the clipboard. Found at https://stackoverflow.com/questions/11063458/python-script-to-copy-text-to-clipboard/41029935#41029935
-#txt - text to copy
-def copy2clip(txt):
+#copy2clip - copies given text to the clipboard. Original found at https://stackoverflow.com/questions/11063458/python-script-to-copy-text-to-clipboard/41029935#41029935
+#txt - text to copy; prnt - set to True if you want to also print the copied text
+def copy2clip(txt, prnt=False):
     cmd='echo '+txt.strip()+'|clip'
-    return check_call(cmd, shell=True)
+    content = check_call(cmd, shell=True)
+    if prnt:
+        print(txt)
+    return content
+
+#glitchtext - creates random glitchy text of a set length and copies it to the clipboard. original by Dan Salvato
+#length - if you want to specify the length of the string when calling the function instead of having the user specify it, change this; p_c - if True, prints the glitchtext and copies it to the clipboard, otherwise it just returns the output
+def glitchtext(length=0, p_c=False):
+    nonunicode = "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽž"
+    if length < 1:
+        length = input_num("Length: ", int, 1)
+    output = ""
+    for x in range(length):
+        output += choice(nonunicode)
+    if p_c:
+        print(output)
+        copy2clip(output)
+    else:
+        return output
