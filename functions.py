@@ -250,18 +250,22 @@ def input_str(prompt, nums_allowed=False, length=False, minimum=False):
     return str(str_input)
 
 #input_question - asks for input that matches one of the choices in the choices list (choices_list should have at least 2 elements), returns a number equal to the index of the choice the user chooses; choices are entered as the second parameter via a list.
-def input_question(prompt, choices_list):
-    answer_valid = False
+#case_sensitive - bool that determines whether answers are determined with case sensitivity or not
+def input_question(prompt, choices_list, case_sensitive=False):
     invalid = "Please input "
     for choice in choices_list:
-        if choice.index(choice) == len(choices_list) - 1:
+        if choices_list[-2] == choice:
             invalid = invalid + "or {} .".format(choice)
         else:
             invalid = invalid + "{}, ".format(choice)
     if len(choices_list) == 2:
         invalid = "Please input {} or {}.".format(choices_list[0] ,choices_list[1])
-    while not answer_valid:
+    if not case_sensitive:
+        for i in range(len(choices_list)): choices_list[i] = choices_list[i].lower()
+    while True:
         answer = input(prompt)
+        if not case_sensitive:
+            answer = answer.lower()
         if answer not in choices_list:
             print(invalid)
         else:
@@ -291,24 +295,48 @@ def input_split(prompt, nums_allowed=False, length=False, minimum=False):
     return input_str(prompt, nums_allowed, length, minimum).split(" ")
 
 #XdY+Z_roller - Rolls a Y sided die X times, can add multiple types of dice, adds modifier Z and prints total
-def XdY_Z_roller():
+#allow repeats - if False, the user is only allowed to make one roll and that's it
+def XdY_Z_roller(allow_repeats=True):
     rolls = []
     sides = []
-    add_more = "yes"
-    current_dice = "Current dice: "
-    while add_more == "yes":
+    current_dice = ""
+    while True:
         rolls.append(input_num("Number of dice to roll: ", int, 1))
-        sides.append(input_num("Number of sides: ", int, 1))
+        sides.append(input_num("Number of sides: ", int, 2))
         if len(rolls) > 1:
             current_dice = current_dice + " + "
         current_dice = current_dice + "{}d{}".format(rolls[-1], sides[-1])
-        print(current_dice)
-        add_more = input_question("Add more types of dice?", ["yes", "no"])
-    result = input_num("Modifier: ", int)
+        print("Current dice: " + current_dice)
+        add_more = input_question("Add more types of dice (y or n)?", ["y", "n"])
+        if add_more == "n":
+            break
+    mod = input_num("Modifier: ", int)
+    result = mod
+    mod_str = ""
+    if mod != 0:
+        mod_str = " + {}".format(mod)
     for i in range(len(sides)):
         for rolls_made in range(rolls[i]):
             result = result + randint(1, sides[i])
-    print(result)
+    print("Result: " + str(result))
+    while allow_repeats:
+        d_loop = False
+        d_continue = input_num("\nDice commands: Quit (1), Roll {} again (2), create new roll (3)\nCommand: ".format(current_dice + mod_str), int)
+        if d_continue == 1:
+            break
+        elif d_continue == 2:
+            result = mod
+            for i in range(len(sides)):
+                for rolls_made in range(rolls[i]):
+                    result = result + randint(1, sides[i])
+            print("Result: " + str(result))
+        elif d_continue == 3:
+            d_loop = True
+            break
+        else:
+            print("Invalid command. Please try again.")
+    if d_loop:
+        XdY_Z_roller()
 
 #the following dicts are to be used by the metric_conversions function
 
