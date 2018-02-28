@@ -1,4 +1,5 @@
 from random import randint
+from subprocess import check_call
 
 #This file was made by badooga so that you don't have to make these noob functions; just import what you need from this module into whatever file you are using and you'll be able to use these functions with ease. Made by a python novice, so if you look at the code and think "that's inefficient", that's probably why. But it *should* work, so it's not a problem - if for some reason something goes wrong though, that's a different story.
 #You are free to distribute this file whoever and wherever you want - just give me credit when doing so
@@ -454,4 +455,4 @@ def statistical_analysis_print(d):
 #txt - text to copy
 def copy2clip(txt):
     cmd='echo '+txt.strip()+'|clip'
-    return subprocess.check_call(cmd, shell=True)
+    return check_call(cmd, shell=True)
