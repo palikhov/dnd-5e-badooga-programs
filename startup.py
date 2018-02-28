@@ -1,4 +1,5 @@
 #Use the Task Scheduler (or a similar program) to have this file open on startup. Made by badooga.
+from random import choice as rchoice
 from os import startfile
 from os import listdir
 from getpass import getuser
@@ -31,8 +32,12 @@ def music(playlist_extension="", song_extension=""): #by default file extensions
     choice = pn("Would you like to play a playlist (1), a specific song (2), or remain silent (3)? ", int, 1, 3)
     loop = [False, False, False]
     loop[choice - 1] = True
+
+    song_list = sorted(listdir(filepath_songs), key=natural_key)
+    playlist_list = sorted(listdir(filepath_playlists), key=natural_key)
+
     while loop[0]:
-        choice = pstr("What music playlist would you like to play (enter 0 to cancel)? ", True, 1, True)
+        choice = pstr("What music playlist would you like to play (enter 0 to cancel, -1 for a random playlist)? ", True, 1, True)
         if choice == "0":
             loop[0] = False
         else:
@@ -43,13 +48,15 @@ def music(playlist_extension="", song_extension=""): #by default file extensions
                 try: #if you typed in an int and it wasn't found as a music playlist, this program will automatically iterate through the folder and open that number
                     if int(choice) == float(choice) and int(choice) >= 1:
                         playlist_choice = int(choice) - 1
-                    playlist_list = sorted(listdir(filepath_playlists), key=natural_key)
-                    startfile(filepath_playlists + playlist_list[playlist_choice])
+                    if choice == "-1":
+                        startfile(filepath_playlists + rchoice(playlist_list))
+                    else:
+                        startfile(filepath_playlists + playlist_list[playlist_choice])
                     loop[0] = False
                 except:
                     print("Error: File not found.")
     while loop[1]:
-        choice = pstr("What music file would you like to play (enter 0 to cancel)? ", True, 1, True)
+        choice = pstr("What song would you like to play (enter 0 to cancel, -1 for a random song)? ", True, 1, True)
         if choice == "0":
             loop[1] = False
         else:
@@ -60,13 +67,14 @@ def music(playlist_extension="", song_extension=""): #by default file extensions
                 try: #if you typed in an int and it wasn't found as a music file, this program will automatically iterate through the folder and open that number
                     if int(choice) == float(choice) and int(choice) >= 1:
                         song_choice = int(choice) - 1
-                    song_list = sorted(listdir(filepath_songs), key=natural_key)
-                    startfile(filepath_songs + song_list[song_choice])
+                    if choice == "-1":
+                        startfile(filepath_songs + rchoice(song_list))
+                    else:
+                        startfile(filepath_songs + song_list[song_choice])
                     loop[1] = False
                 except:
                     print("Error: File not found.")
-
-
+    choice = ""
 
 exit = False
 while not exit:
