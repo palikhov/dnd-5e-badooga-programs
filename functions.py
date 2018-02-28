@@ -449,3 +449,9 @@ def statistical_analysis_print(d):
     print("Interquartile Range: " + str(d.iqr()))
     print("Variance: " + str(d.variance()))
     print("Standard Devation: " + str(d.standard_deviation()))
+
+#copy2clip - copies given text to the clipboard. Found at https://stackoverflow.com/questions/11063458/python-script-to-copy-text-to-clipboard/41029935#41029935
+#txt - text to copy
+def copy2clip(txt):
+    cmd='echo '+txt.strip()+'|clip'
+    return subprocess.check_call(cmd, shell=True)
