@@ -28,10 +28,9 @@ else:
 
 #keep in mind that for user input, I'm starting at 1 and not 0 for the sake of typing ease
 def music():
-    accepted_nums = [3,1,2]
     while True:
         choice = input_num("Would you like to play a playlist (1), play a song (2), or cancel (3)? ")
-        if choice not in accepted_nums:
+        if choice not in [1,2,3]:
             print("Invalid command. Please try again.")
             continue
         break
@@ -45,43 +44,33 @@ def music():
     while mcommand[0]:
         choice = input_str("What music playlist would you like to play (enter 0 to cancel, -1 for a random playlist)? ", True)
         if choice == "0":
-            break
+            pass
         elif choice == "-1":
             startfile(filepath_playlists + rchoice(playlist_list))
-            break
-        else:
-            try: #if a filename starts with what you enter, this will play it; this works well if you start your filenames with the number of the song in the list
-                file_found = False
-                for playlist in playlist_list:
-                    if playlist.lower().startswith(choice.lower()):
-                        startfile(filepath_playlists + playlist)
-                        file_found = True
-                        break
-                if not file_found:
-                    file_found = False
-                    raise EOFError
-            except:
+        else: #if a filename starts with what you enter, this will play that file; this works well if you start your filenames with the number of the song in the list
+            for playlist in playlist_list:
+                if playlist.lower().startswith(choice.lower()):
+                    startfile(filepath_playlists + playlist)
+                    break
+            else:
                 print("Error: File not found.")
+                continue
+        break
     while mcommand[1]:
         choice = input_str("What song would you like to play (enter 0 to cancel, -1 for a random song)? ", True)
         if choice == "0":
-            break
+            pass
         elif choice == "-1":
-            startfile(filepath_songs + rchoice(song_list))
-            break
-        else:
-            try:
-                file_found = False
-                for song in song_list:
-                    if song.lower().startswith(choice.lower()):
-                        startfile(filepath_songs + song)
-                        file_found = True
-                        break
-                if not file_found:
-                    file_found = False
-                    raise EOFError
-            except:
+            startfile(filepath_songs + rchoice(song_list))            
+        else: #if a filename starts with what you enter, this will play that file
+            for song in song_list:
+                if song.lower().startswith(choice.lower()):
+                    startfile(filepath_songs + song)
+                    break
+            else:
                 print("Error: File not found.")
+                continue
+        break
 
 def misc():
     while True:
