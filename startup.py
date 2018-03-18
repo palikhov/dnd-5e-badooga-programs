@@ -7,6 +7,7 @@ from getpass import getuser
 from time import ctime
 from functions import *
 from re import split as rsplit
+from webbrowser import open_new_tab
 
 hour = int(ctime().split()[3][:2])
 
@@ -30,7 +31,7 @@ else:
 def music():
     while True:
         choice = input_num("Would you like to play a playlist (1), play a song (2), or cancel (3)? ")
-        if choice not in [1,2,3]:
+        if choice not in [x for x in range(4)]:
             print("Invalid command. Please try again.")
             continue
         break
@@ -86,13 +87,35 @@ def misc():
             continue
         break
 
+#in the last loop, add an argument containing the appropriate site extension if you are not from the US (e.x. co.uk if you are from the UK)
+def search(extension=".com"):
+    search_type = input_num("\nSearch types: Default (1), Images (2), News (3), YouTube (4)\nSearch type (enter 0 to cancel): ", int)
+    while search_type not in [x for x in range(5)]:
+        print("Invalid search type. Please try again.")
+        search_type = input_num("\nSearch types: Default (1), Images (2), News (3), YouTube (4)\nSearch type (enter 0 to cancel): ", int)
+    url = "google" + extension
+    if search_type == 0:
+        return
+    elif search_type == 1:
+        url = url + "/search?q="
+    elif search_type == 2:
+        url = url + "/search?tbm=isch&q="
+    elif search_type == 3:
+        url = url + "/search?tbm=nws&q="
+    elif search_type == 4:
+        url = "youtube" + extension + "/results?search_query="
+    search = input_str("Query to search: ", True).replace("+", "%2B").replace(" ", "+")
+    open_new_tab("https://www." + url + search)
+
 while True:
-    command = input_num("\nCommands: Quit (1), Music (2), Misc (3)\nCommand: ", int)
+    command = input_num("\nCommands: Quit (1), Music (2), Google (3), Misc (4)\nCommand: ", int)
     if command == 1:
         break
     elif command == 2:
         music()
     elif command == 3:
+        search()
+    elif command == 4:
         misc()
     else:
         print("Invalid command. Please try again.")
