@@ -16,10 +16,12 @@ def natural_key(string_): #used to properly sort file names
     return [int(s) if s.isdigit() else s for s in rsplit(r'(\d+)', string_)]
 
 #Edit these variables if you want to customize them - for example, you may store your music in a different folder, or you may not want to be referred to by your account username
-user = getuser()
-filepath_playlists = "C:\\Users\\{}\\Music\\Playlists\\".format(user)
-filepath_songs = "C:\\Users\\{}\\Music\\Songs\\".format(user)
 
+
+filepath_playlists = "C:\\Users\\{}\\Music\\Playlists\\".format(getuser())
+filepath_songs = "C:\\Users\\{}\\Music\\Songs\\".format(getuser())
+
+user = getuser()
 if hour < 12:
     print("Good morning, {}.".format(user))
 elif hour > 18:
@@ -27,17 +29,21 @@ elif hour > 18:
 else:
     print("Good afternoon, {}.".format(user))
 
-#keep in mind that for user input, I'm starting at 1 and not 0 for the sake of typing ease
+
+
+#keep in mind that for general user input, I'm starting at 1 and not 0 for the sake of typing ease
+
 def music():
     while True:
-        choice = input_num("Would you like to play a playlist (1), play a song (2), or cancel (3)? ")
+        choice = input_num("\nMusic commands: Playlist (1), Song (2), File Locations (3)\nCommand (enter 0 to cancel): ")
         if choice not in [x for x in range(4)]:
             print("Invalid command. Please try again.")
             continue
         break
 
     mcommand = [False, False, False]
-    mcommand[choice - 1] = True
+    if choice != 0:
+        mcommand[choice - 1] = True
 
     song_list = sorted(listdir(filepath_songs), key=natural_key)
     playlist_list = sorted(listdir(filepath_playlists), key=natural_key)
@@ -72,22 +78,26 @@ def music():
                 print("Error: File not found.")
                 continue
         break
+    
+    while mcommand[2]:
+        print("Playlists filepath: " + filepath_playlists +"\nSongs filepaths: " + filepath_songs)
+        break
 
 def misc():
     while True:
-        choice = input_num("\nMisc commands: Cancel (1), Dice (2), Stats (3)\nCommand: ", int)
-        if choice == 1:
+        choice = input_num("\nMisc commands: Dice (1), Stats (2)\nCommand (enter 0 to cancel): ", int)
+        if choice == 0:
             pass
-        elif choice == 2:
+        elif choice == 1:
             XdY_Z_roller()
-        elif choice == 3: 
+        elif choice == 2: 
             statistical_analysis_print(statistical_analysis_input())
         else:
             print("Invalid command. Please try again.")
             continue
         break
 
-#in the last loop, add an argument containing the appropriate site extension if you are not from the US (e.x. co.uk if you are from the UK)
+#in the last loop where this function is called, add an argument containing the appropriate site extension if you are not from the US (e.x. ".co.uk" if you are from the UK)
 def search(extension=".com"):
     search_type = input_num("\nSearch types: Default (1), Images (2), News (3), YouTube (4)\nSearch type (enter 0 to cancel): ", int)
     while search_type not in [x for x in range(5)]:
@@ -106,6 +116,8 @@ def search(extension=".com"):
         url = "youtube" + extension + "/results?search_query="
     search = input_str("Query to search: ", True).replace("+", "%2B").replace(" ", "+")
     open_new_tab("https://www." + url + search)
+
+
 
 while True:
     command = input_num("\nCommands: Quit (1), Music (2), Google (3), Misc (4)\nCommand: ", int)
