@@ -24,7 +24,7 @@ class Data(object):
         if self.data_len == 2:
             median = (self.data[0] + self.data[1])/2
         elif self.data_len % 2 == 0:
-            median = (self.data[1 + int(self.data_len/2)] + self.data[-1 + int(self.data_len/2)])/2
+            median = (self.data[int(self.data_len/2)] + self.data[int(-1 + self.data_len/2)])/2
         else:
             median = self.data[int(self.data_len/2 - .5)]
         return median
@@ -145,8 +145,7 @@ class Data(object):
 def input_num(prompt, float_or_int=False, bound_lower=False, bound_upper=False, inclusive_lower=True, inclusive_upper=True, convert_string=False):
     bound = [bound_lower, bound_upper]
     inclusive = [inclusive_lower, inclusive_upper]
-    numbers = [str(i) for i in range(0,10)]
-    numbers.append("-")
+    numbers = [str(i) for i in range(0,10)] + ["-"]
     input_type_2 = ""
     inclusive_0 = ""
     inclusive_1 = ""
@@ -467,7 +466,7 @@ def statistical_analysis_print(d):
     print("Variance: " + str(d.variance()))
     print("Standard Devation: " + str(d.standard_deviation()))
 
-#copy2clip - copies given text to the clipboard. Original found at https://stackoverflow.com/questions/11063458/python-script-to-copy-text-to-clipboard/41029935#41029935
+#copy2clip - copies given text to the clipboard. original found at https://stackoverflow.com/questions/11063458/python-script-to-copy-text-to-clipboard/41029935#41029935
 #txt - text to copy; prnt - set to True if you want to also print the copied text
 def copy2clip(txt, prnt=False):
     cmd='echo '+ txt +'|clip'
