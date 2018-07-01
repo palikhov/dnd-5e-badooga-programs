@@ -1,13 +1,14 @@
 #Made by badooga.
 #Use the Task Scheduler (or a similar program) to have this file open on startup; requires you to have the file functions.py that can be found at https://github.com/badooga/Python-Files
 from random import choice as rchoice
-from os import startfile
-from os import listdir
+from os import startfile, path, listdir
 from getpass import getuser
 from time import ctime
 from functions import *
 from re import split as rsplit
 from webbrowser import open_new_tab
+dir_path = path.dirname(path.realpath(__file__))
+
 
 hour = int(ctime().split()[3][:2])
 
@@ -15,19 +16,40 @@ def natural_key(string_): #used to properly sort file names
     """See http://www.codinghorror.com/blog/archives/001018.html"""
     return [int(s) if s.isdigit() else s for s in rsplit(r'(\d+)', string_)]
 
-#Edit these variables if you want to customize them - for example, you may store your music in a different folder, or you may not want to be referred to by your account username
-
+#Edit these variables if you want to customize them - for example, you may store your music in a different folder
 
 filepath_playlists = "C:\\Users\\{}\\Music\\Playlists\\".format(getuser())
 filepath_songs = "C:\\Users\\{}\\Music\\Songs\\".format(getuser())
 
-user = getuser()
+try:
+    with open(dir_path + "\\name.txt", "r") as n:
+        user = n.readline().rstrip()
+except:
+    with open(dir_path + "\\name.txt", "w") as n:
+        user = input_str("Name not found. What name would you like to go by? ", True).rstrip()
+        n.write(user)
 if hour < 12:
     print("Good morning, {}.".format(user))
 elif hour > 18:
     print("Good evening, {}.".format(user))
 else:
     print("Good afternoon, {}.".format(user))
+
+r_list = []
+try:
+    with open(dir_path + "\\reminders.txt", "r") as r:
+        r_list_original = r.readlines()
+        if r_list_original == []:
+            print("\nYou have no reminders.")
+        else:
+            print("\nReminders:")
+            for line in r_list_original:
+                print(line.rstrip())
+                r_list.append(line.rstrip())
+except:
+    print("\nYou have no reminders.")
+    with open(dir_path + "\\reminders.txt", "w") as r:
+        pass
 
 
 
@@ -117,17 +139,89 @@ def search(extension=".com"):
     search = input_str("Query to search: ", True).replace("+", "%2B").replace(" ", "+")
     open_new_tab("https://www." + url + search)
 
+def reminders():
+    while True:
+        command = input_num("\nReminder commands: Print Reminder (1), New (2), Edit (3), Delete (4)\nCommand (enter 0 to cancel): ", int)
+        if command == 0:
+            break
 
+        elif command == 1:
+            while True:
+                print_reminder = input_num("Choose a reminder to print (enter 0 to print all reminders): ", int, 0)
+                if print_reminder == 0:
+                    if r_list == []:
+                        print("\nYou have no reminders.")
+                    else:
+                        print("\nReminders:")
+                        for line in r_list:
+                            print(line)
+                    break
+                else:
+                    try:
+                        print("\nReminder {}:\n".format(print_reminder) + r_list[print_reminder - 1])
+                        break
+                    except IndexError:
+                        if r_list == []:
+                            print("\nYou have no reminders.")
+                            break
+                        else:
+                            print("Invalid reminder. Please try again.")
+
+        elif command == 2:
+            new_reminder = input_str("New reminder (input empty space to cancel): ", True).rstrip()
+            if new_reminder != "":
+                r_list.append(new_reminder)
+
+        elif command == 3:
+            while True:
+                edit_reminder = input_num("Choose a reminder to edit (enter 0 to cancel): ", int, 0)
+                if edit_reminder == 0:
+                    break
+                try:
+                    r_list[edit_reminder - 1]
+                    r_list[edit_reminder - 1] = input_str("Reminder: ", True)
+                    break
+                except IndexError:
+                    if r_list == []:
+                        print("\nYou have no reminders.")
+                        break
+                    else:
+                        print("Invalid reminder. Please try again.")
+
+        elif command == 4:
+            while True:
+                delete_reminder = input_num("Reminder to delete (enter 0 to cancel): ", 0)
+                if delete_reminder == 0:
+                    break
+                try:
+                    r_list[delete_reminder - 1]
+                    del r_list[delete_reminder - 1]
+                    break
+                except IndexError:
+                    if r_list == []:
+                        print("\nYou have no reminders.")
+                        break
+                    else:
+                        print("Invalid reminder. Please try again.")
+
+        else:
+            print("Invalid command. Please try again.")
+
+        with open(dir_path + "\\reminders.txt", "w") as r:
+            for line in r_list:
+                r.write(line + "\n")
 
 while True:
-    command = input_num("\nCommands: Quit (1), Music (2), Google (3), Misc (4)\nCommand: ", int)
+    command = input_num("\nCommands: Quit (1), Music (2), Reminders (3), Search (4), Misc (5) \nCommand: ", int)
     if command == 1:
         break
     elif command == 2:
         music()
     elif command == 3:
-        search()
+        reminders()
     elif command == 4:
+        search()
+    elif command == 5:
         misc()
     else:
         print("Invalid command. Please try again.")
