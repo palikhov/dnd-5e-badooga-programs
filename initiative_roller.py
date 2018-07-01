@@ -3,8 +3,8 @@ from operator import itemgetter
 #Made by badooga.
 
 
-"""Welcome! If you know how to edit this file (which I hope you do, considering you're reading this) and how to run it, you can use this to quickly roll initiative
-for both your players and your enemy combatants. Below are a few comments that will explain how to customize this tracker to your liking. Have fun!"""
+"""Welcome! If you want to use this, first download the file. If you know how to edit and run your downloaded version, you can use this to quickly roll
+initiative for both your players and your enemy combatants. Below are a few comments that will explain how to customize this tracker to your liking. Have fun!"""
 
 initiative = {
     #The format goes as follows, with the name being either player name or character name.
