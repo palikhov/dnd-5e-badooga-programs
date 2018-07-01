@@ -24,10 +24,18 @@ filepath_songs = "C:\\Users\\{}\\Music\\Songs\\".format(getuser())
 try:
     with open(dir_path + "\\name.txt", "r") as n:
         user = n.readline().rstrip()
+    if user == "":
+        raise EOFError
 except:
     with open(dir_path + "\\name.txt", "w") as n:
-        user = input_str("Name not found. What name would you like to go by? ", True).rstrip()
+        while True:
+            user = input_str("Name not found. What name would you like to go by? ", True).rstrip()
+            if user == "":
+                print("Invalid name. Please try again.")
+            else:
+                break
         n.write(user)
+
 if hour < 12:
     print("Good morning, {}.".format(user))
 elif hour > 18:
