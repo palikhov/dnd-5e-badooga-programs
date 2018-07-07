@@ -18,6 +18,6 @@ if ["%~dp$PATH:1"] == [""] (
 ) else (
     cd %~dp$PATH:1
 )
-start "" code . %~nx1
+start /MAX "" code . %~nx1
 CLS
 exit
