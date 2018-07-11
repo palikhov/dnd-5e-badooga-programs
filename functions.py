@@ -170,8 +170,6 @@ def input_num(prompt, float_or_int=False, bound_lower=False, bound_upper=False, 
         try:
             if float_or_int == float:
                 num_input = float(Fraction(num_input))
-                elif "." not in num_input:
-
             elif float_or_int == int:
                 for j in num_input:
                     if j not in numbers:
