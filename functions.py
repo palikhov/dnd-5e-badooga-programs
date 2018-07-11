@@ -333,7 +333,7 @@ def XdY_Z_roller(allow_repeats=True):
 
     while allow_repeats:
         d_loop = False
-        d_continue = input_num("\nDice commands: Quit (1), Roll {} again (2), create new roll (3)\nCommand: ".format(current_dice + mod_str))
+        d_continue = input_num("\nDice commands: Quit (1), Roll {} Again (2), New Roll (3)\nCommand: ".format(current_dice + mod_str))
         if d_continue == 1:
             break
         elif d_continue == 2:
