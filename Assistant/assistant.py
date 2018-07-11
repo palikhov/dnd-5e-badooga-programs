@@ -298,7 +298,7 @@ def reminders():
                 elif delete_reminder > len(r_list):
                     print("Invalid reminder. Please try again.")
                 else:
-                    if input_str("Are you sure want to delete this reminder? Enter 'd' to delete, or 'c' to cancel:", True) in ["d", "D"]:
+                    if input_question("Are you sure want to delete this reminder (Y/N)? ", ["y", "n"]) == "y":
                         del r_list[delete_reminder - 1]
                         save()
                     break 
