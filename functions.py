@@ -316,8 +316,7 @@ def XdY_Z_roller(allow_repeats=True):
         current_dice = current_dice + "{}d{}".format(rolls[-1], sides[-1])
         print("Current dice: " + current_dice)
 
-        add_more = input_question("Add more types of dice (y or n)?", ["y", "n"])
-        if add_more == "n":
+        if input_question("Add more types of dice (Y/N)?", ["y", "n"]) == "n":
             break
 
     mod = input_num("Modifier: ", int)
