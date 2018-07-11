@@ -1,5 +1,6 @@
 from random import *
 from subprocess import check_call
+from fractions import Fraction
 
 #This file was made by badooga for your convenience; just import what you need from this module into whatever file you are using and you'll be able to use these functions with ease.
 #You are free to distribute this file wherever you want (the most updated version can probably be found at https://github.com/badooga/Python-Files) - just give me credit when doing so
@@ -141,7 +142,7 @@ class Data(object):
             return 0
         
 #input_num - asks for input, only accepts a number that satisfies the parameter-specified conditions repeats prompt until it gets one
-#float_or_int - if you want the input number to be a float or int (False is either); bound_lower and bound_upper - the lower and upper bounds that a number must be within, False is infinity, double False means bound check is ignored completely; inclusive_lower and inclusive_upper - if a particular bound is inclusive or not (i.e. greater than or equal to or just greater than), bool; convert_string - if set to True, returns the str() version of the number
+#float_or_int - if you want the input number to be a float or int (False is either), float and False also include improper and proper fractions; bound_lower and bound_upper - the lower and upper bounds that a number must be within, False is infinity, double False means bound check is ignored completely; inclusive_lower and inclusive_upper - if a particular bound is inclusive or not (i.e. greater than or equal to or just greater than), bool; convert_string - if set to True, returns the str() version of the number
 def input_num(prompt, float_or_int=False, bound_lower=False, bound_upper=False, inclusive_lower=True, inclusive_upper=True, convert_string=False):
     bound = [bound_lower, bound_upper]
     inclusive = [inclusive_lower, inclusive_upper]
@@ -168,8 +169,9 @@ def input_num(prompt, float_or_int=False, bound_lower=False, bound_upper=False, 
         num_input = input(prompt)
         try:
             if float_or_int == float:
-                if "." not in num_input:
-                    num_input = float(num_input)
+                num_input = float(Fraction(num_input))
+                elif "." not in num_input:
+
             elif float_or_int == int:
                 for j in num_input:
                     if j not in numbers:
@@ -183,7 +185,7 @@ def input_num(prompt, float_or_int=False, bound_lower=False, bound_upper=False, 
                     else:
                         raise TypeError
                 except:
-                    num_input = float(num_input)
+                    num_input = float(Fraction(num_input))
         except:
             print(invalid_input)
             continue
@@ -316,7 +318,7 @@ def XdY_Z_roller(allow_repeats=True):
         current_dice = current_dice + "{}d{}".format(rolls[-1], sides[-1])
         print("Current dice: " + current_dice)
 
-        if input_question("Add more types of dice (Y/N)?", ["y", "n"]) == "n":
+        if input_question("Add more types of dice (Y/N)? ", ["y", "n"]) == "n":
             break
 
     mod = input_num("Modifier: ", int)
