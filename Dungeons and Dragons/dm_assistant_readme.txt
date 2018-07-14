@@ -1,0 +1,3 @@
+This DM Assistant was made by badooga. https://github.com/badooga/Python-Files
+
+You can use this nifty program to quickly and easily roll initiative for both your players (if they're fine with that) and your enemy combatants. You can also use it to save the essentials of monsters' stat blocks to the assistant, allowing for easy stat block access and the easy addition of these monsters to an initiative roll. The other functionalities include rolling custom dice (with modifiers), easy access to condensed descriptions of every condition in the game, and easy access to condensed descriptions of a few common spells ranging from cantrips to 4th level.
