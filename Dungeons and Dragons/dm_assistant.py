@@ -43,9 +43,10 @@ def entercombat(mod_dict):
             else:
                 enemygroup_mod = input_num("Faction/Enemy/NPC {} Initiative Modifier: ".format(enemygroup + 1), int)
             initiative[enemygroup_name] = randint(1,20) + enemygroup_mod
-    
-    for player in mod_dict.keys():
-        initiative[player] = randint(1, 20) + mod_dict[player]
+
+    if mod_dict != {}:
+        for player in mod_dict.keys():
+            initiative[player] = randint(1, 20) + mod_dict[player]
     
     tracker = sorted([(k,v) for k,v in initiative.items()], key=itemgetter(1), reverse=True)
     print("\nInitiative Order:")
@@ -54,8 +55,12 @@ def entercombat(mod_dict):
     
 
 def editplayer(mod_dict):
-    ecommand = input_num("\nWould you like to edit a player's initiative modifier (1) or a player's name (2)? (enter 0 to cancel): ", int)
     while True:
+        if mod_dict == {}:
+            print("\nYou have no players saved.")
+            break
+        
+        ecommand = input_num("\nWould you like to edit a player's initiative modifier (1) or a player's name (2)? (enter 0 to cancel): ", int)
         if ecommand == 0:
             break
 
@@ -69,6 +74,7 @@ def editplayer(mod_dict):
                 else:
                     player_mod_new = input_num("New Initiative Modifier: ", int)
                     mod_dict[player_mod_edit] = player_mod_new
+                    print("\nEdit saved!")
                     break
             break
         
@@ -88,6 +94,7 @@ def editplayer(mod_dict):
                             break
                     mod_dict[player_name_new] = mod_dict[player_name_edit]
                     del mod_dict[player_name_edit]
+                    print("\nEdit saved!")
                     break
             break
 
@@ -116,10 +123,18 @@ def addordeleteplayer(mod_dict):
                             break
                     player_mod_add = input_num("Player {} Initiative Modifier: ".format(player + 1), int)
                     mod_dict[player_name_add] = player_mod_add
+                if num_players_add == 1:
+                    print("\nPlayer saved!")
+                elif num_players_add > 1:
+                    print("\Players saved!")
             break
 
         elif command == 2:
             while True:
+                if mod_dict == {}:
+                    print("\nYou have no players saved.")
+                    break
+
                 player_del = input_str("What player would you like to delete (enter 0 to cancel)? ", True)
                 if player_del == "0":
                     break
@@ -128,6 +143,7 @@ def addordeleteplayer(mod_dict):
                 else:    
                     if input_question("Are you sure you want to delete {} from the list of players (Y/N)? ".format(player_del), ["y", "n"]) == "y":
                         del mod_dict[player_del]
+                        print("\nPlayer successfully deleted.")
                     break
             break
 
@@ -143,14 +159,20 @@ def initiative_roller():
             entercombat(modifiers)
             break
         elif ccommand == 2:
-            print(modifiers)
+            if modifiers == {}:
+                print("\nYou have no players saved.")
+            else:
+                print("")
+                print(modifiers)
             break
         elif ccommand == 3:
             editplayer(modifiers)
-            save(modifiers, monsters)
+            if modifiers != {}:
+                save(modifiers, monsters)
         elif ccommand == 4:
             addordeleteplayer(modifiers)
-            save(modifiers, monsters)
+            if modifiers != {}:
+                save(modifiers, monsters)
         else:
             print("Invalid command. Please try again.")
 
@@ -164,7 +186,7 @@ def addordeletemonster():
             while True:
                 monster_name = input_str("Monster name: ", True)
                 if monster_name in monsters.keys():
-                    print("Monster name already taken. Please try again.")
+                    print("Monster already exists. Please try again.")
                 else:
                     monsters[monster_name] = {}
                     m = monsters[monster_name]
@@ -184,7 +206,12 @@ def addordeletemonster():
             num_actions = input_num("How many available actions (including attacks) does your monster have? ", int, 1)
             m["Actions"] = {}
             for a in range(num_actions):
-                action_name = input_str("Action {} Name: ".format(a + 1), True)
+                while True:
+                    action_name = input_str("Action {} Name: ".format(a + 1), True)
+                    if action_name in m["Actions"]:
+                        print("Action already exists. Please try again.")
+                    else:
+                        break
                 action_desc = input_str("Action {} Description: ".format(a + 1), True)
                 m["Actions"][action_name] = action_desc
             print("\nMonster saved!")
@@ -202,6 +229,7 @@ def addordeletemonster():
                 else:    
                     if input_question("Are you sure you want to delete {} from the list of monsters (Y/N)? ".format(monster_del), ["y", "n"]) == "y":
                         del monsters[monster_del]
+                        print("\nMonster successfully deleted.")
                     break
         else:
             print("Invalid command. Please try again.")
@@ -353,18 +381,22 @@ def monster_helper():
             break
         elif mcommand == 3:
             editmonster()
-            save(modifiers, monsters)
+            if monsters != {}:
+                save(modifiers, monsters)
         elif mcommand == 4:
             addordeletemonster()
-            save(modifiers, monsters)
+            if monsters != {}:
+                save(modifiers, monsters)
         elif mcommand == 5:
             print("\nYou can use the Monster Helper to access the bare essentials of a D&D 5e monster's stat block for use on the fly.\nTo do this, add your own monster via the 'add or delete monsters' command.\nThe Monster Helper will also work with the Initiative Roller - if you input the name of a saved monster when\nentering combat with the Initiative Roller, it will automatically use the saved monster's initiative.")
         else:
             print("Invalid command. Please try again.")
 
 def misc():
+    global monsters
+    global modifiers
     while True:
-        micommand = input_num("\nMisc Commands: Conditions and Effects (1), Common Spells (2)\nCommand (enter 0 to cancel): ")
+        micommand = input_num("\nMisc Commands: Conditions and Effects (1), Common Spells (2), Delete Player or Monster Data (3)\nCommand (enter 0 to cancel): ")
         if micommand == 0:
             break
         elif micommand == 1:
@@ -415,6 +447,31 @@ def misc():
             print("Fire Shield: 10min, caster gets resistance to cold or fire, melee attackers take 2d8 fire or cold, respectively")
             print("Wall of Fire: 1min, 20ft tall and 1ft thick, 60ft long or 20ft diameter, dex save on appearance for (X + 1)d8 fire or half, damaging side of wall does (X + 1)d8 when entering it or ending turn within 10ft")
             print("Polymorph: 60min concentration, unwilling targets wis save, new form is beast less than or equal to target's CR/level, extra HP pool, all stats replaced, gear melds into them")
+
+        elif micommand == 3:
+            while True:
+                delete = input_num("Would you like to delete all player data (1) or all monster data (2) (enter 0 to cancel)? ", int)
+                if delete == 0:
+                    break
+                elif delete == 1:
+                    if modifiers == {}:
+                        print("\nThere is no player data to delete.")
+                    elif input_question("This action is irreversible. Are you sure you want to delete all player data (Y/N)? ", ["y", "n"]) == "y":
+                        modifiers = {}
+                        save(modifiers, monsters)
+                        print("\nPlayer data successfully deleted.")
+                    break
+                elif delete == 2:
+                    if monsters == {}:
+                        print("\nThere is no monster data to delete..")
+                    elif input_question("This action is irreversible. Are you sure you want to delete all monster data (Y/N)? ", ["y", "n"]) == "y":
+                        monsters = {}
+                        save(modifiers, monsters)
+                        print("\Monster successfully deleted.")
+                    break
+                else:
+                    print("Invalid command. Please try again.")
+            break
 
         else:
             print("Invalid command. Please try again.")
