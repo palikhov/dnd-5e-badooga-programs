@@ -12,9 +12,9 @@ if [%1] == [] (
 )
 
 if ["%~dp$PATH:1"] == [""] (
-    cd %~dp1
+    cd "%~dp1"
 ) else (
-    cd %~dp$PATH:1
+    cd "%~dp$PATH:1"
 )
-start /MAX "" code . "%~nx1"
+start /MAX "" code "." "%~nx1"
 exit
