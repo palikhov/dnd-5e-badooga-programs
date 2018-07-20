@@ -22,6 +22,6 @@ foreach ($element in $envpath) {
   }
   if ($envpath[-1] -eq $element) {
     cd (Split-Path $file)
-    code . "$file"
+    code "." "$file"
   }
 }
