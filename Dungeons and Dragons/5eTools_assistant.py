@@ -2,7 +2,7 @@
 
 #5eTools: https://5e.tools/
 #This program only supports base 5eTools content at the moment; your 5eTools homebrew sadly won't work with this.
-#Also, a very minor issue is that this tool uses Google Chrome, so if you don't have Google Chrome, you need to download it in order to use this.
+#Also, a very minor issue is that this tool uses Google Chrome, so if you don't have Google Chrome in the appropriate folder as seen below, you need to download it in order to use this.
 
 from os import listdir, path
 from subprocess import call
