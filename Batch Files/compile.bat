@@ -18,9 +18,6 @@ if NOT ["%errorlevel%"]==["0"] (
     exit /b %errorlevel%
 )
 set str=%1
-set str2=%1
 set str=%str:.py=.spec%
-set str2=%str2:.json=.spec%
 del %str%
-del %str2%
 rmdir /S /Q exe_build_temp
