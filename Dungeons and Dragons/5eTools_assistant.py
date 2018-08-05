@@ -2,7 +2,7 @@
 
 #5eTools: https://5e.tools/
 #This program only supports base 5eTools content at the moment; your 5eTools homebrew sadly won't work with this.
-#Also, a very minor issue is that this tool uses Google Chrome, so if you don't have Google Chrome in the appropriate folder as seen below, you need to download it in order to use this.
+#Also, a very minor issue is that this tool uses Google Chrome, so if you don't have Google Chrome, you need to download it in order to use this.
 
 from os import listdir, path
 from subprocess import call
@@ -45,8 +45,8 @@ for k,v in modules.items():
 
 for m in modules.keys():
     exec("""
-def {}(query=False, adventure=False):
-    search(query, {}, adventure)
+def {}(query=False):
+    search(query, {})
 """.format(m, modules[m]))
 
 
@@ -79,7 +79,7 @@ def help():
     print("!lootgen: opens the loot generator.")
     print("!dmscreen: opens the DM screen.")
 
-def search(s, c=0, a=False): #search, command
+def search(s, c=0): #search, command
     global modules
     global modules_switch
     global chromedir
@@ -108,12 +108,9 @@ def search(s, c=0, a=False): #search, command
         print("No results found for '{}'.".format(s))
     else:
         rlist = []
-        if a:
-            a_switch = "https://5etools.com/adventures.html#"
+        filepath = 'file:\\\\\\' + dir_path + modules_switch[resultpool[0]["c"]] + ".html#"
         if len(resultpool) == 1 and s == resultpool[0]["n"].lower():
-            if not a:
-                a_switch = 'file:\\\\\\' + dir_path + modules_switch[resultpool[0]["c"]] + ".html#"
-            call("\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --allow-file-access-from-files " + "\"" + a_switch + resultpool[0]["u"] + "\"")
+            call("\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --allow-file-access-from-files " + "\"" + filepath + resultpool[0]["u"] + "\"")
         else:
             for result in resultpool:
                 try:
@@ -134,11 +131,8 @@ def search(s, c=0, a=False): #search, command
                 print("[{}] ".format(rlist.index(r) + 1) + r)
             search_picker = input_num("\nEnter the number of the result you are looking for (enter 0 to cancel): ", int, 0, len(rlist)) - 1
             if search_picker > -1:
-                if resultpool[search_picker]["c"] == 13:
-                    a_switch = "https://5etools.com/adventures.html#"
-                else:
-                    a_switch = "file:\\\\\\" + dir_path + modules_switch[resultpool[search_picker]["c"]] + ".html#"
-                call("\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --allow-file-access-from-files " + "\"" + a_switch + resultpool[search_picker]["u"] + "\"")
+                filepath = "file:\\\\\\" + dir_path + modules_switch[resultpool[search_picker]["c"]] + ".html#"
+                call("\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --allow-file-access-from-files " + "\"" + filepath + resultpool[search_picker]["u"] + "\"")
         
 
 print("Welcome to the 5eTools Assistant. Use !help for a list of available commands, and use !quit to quit.")
@@ -150,8 +144,6 @@ while True:
         exec("{}()".format(command[0][1:]))
     elif command[0] == "!search":
         exec("{}('{}')".format(command[0][1:], command[1]))
-    elif command[0] == "!adventure":
-        exec("{}('{}', True)".format(command[0][1:], command[1]))
     elif command[0][1:] in modules.keys():
         exec("{}('{}')".format(command[0][1:], command[1]))
     else:
