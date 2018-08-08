@@ -328,7 +328,7 @@ def XdY_Z_roller(allow_repeats=True):
     for i in range(len(sides)):
         for rolls_made in range(rolls[i]):
             result = result + randint(1, sides[i])          
-    print("Result: " + str(result))
+    print("\nRoll of {}: ".format(current_dice + mod_str) + str(result))
 
     while allow_repeats:
         d_loop = False
@@ -340,7 +340,7 @@ def XdY_Z_roller(allow_repeats=True):
             for i in range(len(sides)):
                 for rolls_made in range(rolls[i]):
                     result = result + randint(1, sides[i])
-            print("Result: " + str(result))
+            print("\nRoll of {}: ".format(current_dice + mod_str) + str(result))
         elif d_continue == 3:
             d_loop = True
             break
