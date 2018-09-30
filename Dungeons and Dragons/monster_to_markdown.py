@@ -18,6 +18,8 @@ def main():
             continue
         break
 
+
+    le = len(sb)-1
     for k in range(len(sb)):
         if sb[k].startswith("**Challenge**"):
             b = k + 1
