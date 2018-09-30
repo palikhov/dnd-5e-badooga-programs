@@ -8,7 +8,6 @@ from subprocess import call
 #This program can be used to convert Reddit-style stat blocks from the D&D Monster Maker to a markdown format used by tools like GMBinder.
 #D&D Monster Maker - http://thegeniusinc.com/dd-monster-maker-download/
 #This program works by editing your clipboard data. To use this, choose the "Reddit" option in the Monster Maker (bottom right of the left half) to preview your monster in the Reddit format, click the Reddit button on the righthand side to copy this to your clipboard, and then run this program.
-#Now that the page has loaded, simply replace the default Parser text with what you now have copied and let the Parser do all the work.
 
 def main():
     while True:
