@@ -41,7 +41,7 @@ def main():
         except:
             break
 
-        sb[l] = sb[l].replace(" piercing and", " piercing, and").replace("damage from nonmagical", "from nonmagical").replace("nonmagical weapons", "nonmagical attacks").replace("**--Legendary Action", "**--Legendary Actions")
+        sb[l] = sb[l].replace(" piercing and", " piercing, and").replace("damage from nonmagical", "from nonmagical").replace("nonmagical weapons", "nonmagical attacks").replace("**--Legendary Action", "**--Legendary Actions").replace("Melee Weapon Attack: ", "*Melee Weapon Attack:* ").replace("Ranged Weapon Attack: ", "*Ranged Weapon Attack:* ").replace("Melee Spell Attack: ", "*Melee Spell Attack:* ").replace("Ranged Spell Attack: ", "*Ranged Weapon Attack:* ")
 
         if sb[l].startswith("**Damage"):
             if "piercing, and " in sb[l]:
