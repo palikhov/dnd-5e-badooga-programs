@@ -1,7 +1,4 @@
-from os import path, listdir, system, startfile
-from sys import argv
 import pyperclip
-from subprocess import call
 
 #Made by badooga. https://github.com/badooga/Programs
 
