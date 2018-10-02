@@ -2,7 +2,7 @@ import pyperclip
 
 #Made by badooga. https://github.com/badooga/Programs
 
-#This program can be used to convert Reddit-style stat blocks, such as from the D&D Monster Maker to a markdown format used by tools like GMBinder.
+#This program can be used to convert Reddit-style stat blocks, such as from the D&D Monster Maker, to a markdown format used by tools like GMBinder.
 #D&D Monster Maker - http://thegeniusinc.com/dd-monster-maker-download/
 #This program works by editing a Reddit-style stat block that is copied to the clipboard. To use this with the tool linked above, choose the "Reddit" option in the Monster Maker (bottom right of the left half) to preview your monster in the Reddit format, click the Reddit button on the righthand side to copy this to your clipboard, and then run this program.
 
