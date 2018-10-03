@@ -70,7 +70,7 @@ def main():
             sb[l].replace("***", "**")
 
         if "**Damage" in sb[l]:
-            if damage == 1:
+            if damage == 1 and "Resistances" in sb[l]:
                 sb[l], sb[l-1] = sb[l-1], sb[l]
             else:
                 damage = 1
