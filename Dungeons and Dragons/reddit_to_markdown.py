@@ -27,9 +27,9 @@ def main():
 
     monstername = sb[0][2:-2]
 
-    damage = 0
     l = 0
     length = len(sb)
+    damage_switch = True
 
     while not (l > length):
         
@@ -39,6 +39,16 @@ def main():
             break
 
         sb[l] = sb[l].replace(" piercing and", " piercing, and").replace("damage from nonmagical", "from nonmagical").replace("nonmagical weapons", "nonmagical attacks").replace("**--Legendary Action", "**--Legendary Actions").replace("Melee Weapon Attack: ", "*Melee Weapon Attack:* ").replace("Ranged Weapon Attack: ", "*Ranged Weapon Attack:* ").replace("Melee Spell Attack: ", "*Melee Spell Attack:* ").replace("Ranged Spell Attack: ", "*Ranged Weapon Attack:* ")
+
+        if "**Damage " in sb[l] and damage_switch:
+            if "**Damage Immunities**" in sb[l]:
+                if "**Damage Vulnerabilities**" in sb[l + 2]:
+                    sb[l], sb[l + 2] = sb[l + 2], sb[l]
+                elif "**Damage " in sb[l + 1]:
+                    sb[l], sb[l + 1] = sb[l + 1], sb[l]
+            elif "**Damage Resistances" in sb[l] and "**Damage Vulnerabilities**" in sb[l + 1]:
+                sb[l], sb[l + 1] = sb[l + 1], sb[l]
+            damage_switch = False
 
         if sb[l].startswith("**Damage"):
             if "piercing, and " in sb[l]:
@@ -68,12 +78,6 @@ def main():
 
         elif sb[l] in sb[le:]:
             sb[l].replace("***", "**")
-
-        if "**Damage" in sb[l]:
-            if damage == 1 and "Resistances" in sb[l]:
-                sb[l], sb[l-1] = sb[l-1], sb[l]
-            else:
-                damage = 1
 
         if l in range(b, length) and sb[l] != "" and not (l >= le):
             sb.insert(l + 1, "")
