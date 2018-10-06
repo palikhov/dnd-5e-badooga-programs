@@ -76,8 +76,8 @@ def main():
         elif sb[l].startswith("**") and sb[l] in sb[b:le]: #proper bolding
             sb[l] = sb[l].replace("**", "***")
 
-        elif sb[l] in sb[le:]:
-            sb[l].replace("***", "**")
+        if sb[l] in sb[le:]:
+            sb[l] = sb[l].replace("***", "**")
 
         if l in range(b, length) and sb[l] != "" and not (l >= le):
             sb.insert(l + 1, "")
