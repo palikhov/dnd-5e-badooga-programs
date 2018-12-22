@@ -1,16 +1,17 @@
-from random import *
+from random import randint, choice
 from subprocess import check_call
 from fractions import Fraction
 
-#This file was made by badooga for your convenience; just import what you need from this module into whatever file you are using and you'll be able to use these functions with ease.
-#You are free to distribute this file wherever you want (the most updated version can probably be found at https://github.com/badooga/Python-Files) - just give me credit when doing so
-#Anyway, the comments below document how the code actually works, if you are interested.
+"""
+This file was made by badooga for your convenience. Just import what you need from this module into whatever file you are using, and you'll be able to use these functions with ease.
+You are free to distribute this file wherever you want (the most updated version can be found at https://github.com/badooga/Python-Files) - just give me credit when doing so.
+"""
+#For all input-related functions, prompt = what you want to ask
 
-
-#for all input-related functions - prompt = what you want to ask
-
-#Data - used in the statistical analysis functions, or can be used by itself; takes a list of numbers as its parameter when called, allowing statistical information to be derived via these methods
 class Data(object):
+    """
+    Used to turn a list/tuple/etc of numbers and to make into something operable via statistical methods like finding the mean, median, etc.
+    """
     def __init__(self, data):
         self.data = sorted(data) #sorts the data list automatically so that you don't have to
         self.data_len = len(self.data)
@@ -141,12 +142,19 @@ class Data(object):
         except KeyError:
             return 0
         
-#input_num - asks for input, only accepts a number that satisfies the parameter-specified conditions repeats prompt until it gets one
-#float_or_int - if you want the input number to be a float or int (False is either), float and False also include improper and proper fractions; bound_lower and bound_upper - the lower and upper bounds that a number must be within, False is infinity, double False means bound check is ignored completely; inclusive_lower and inclusive_upper - if a particular bound is inclusive or not (i.e. greater than or equal to or just greater than), bool; convert_string - if set to True, returns the str() version of the number
-def input_num(prompt, float_or_int=False, bound_lower=False, bound_upper=False, inclusive_lower=True, inclusive_upper=True, convert_string=False):
+#convert_string - if set to True, returns the str() version of the number
+def input_num(prompt="", float_or_int=False, bound_lower=False, bound_upper=False, inclusive_lower=True, inclusive_upper=True, convert_string=False):
+    """
+    Asks for input, and only accepts a number based on the arguments passed. If an invalid input is given, it asks for it again until it gets what you want.
+    float_or_int: can be False (accepts either ints or floats), int, or float. The float argument also gives support for (im)proper fractions.
+    bound_lower, bound_upper: the lower and upper bounds that the input number must be within. False means infinity, so if both are False, there is no bound to check for.
+    inclusive_lower, inclusive_upper: True or False determines whether the lower and upper bounds of the input are inclusive.
+    convert_string: does str() on the number.
+    """
     bound = [bound_lower, bound_upper]
     inclusive = [inclusive_lower, inclusive_upper]
     numbers = [str(i) for i in range(0,10)] + ["-"]
+
     input_type_2 = ""
     inclusive_0 = ""
     inclusive_1 = ""
@@ -222,74 +230,74 @@ def input_num(prompt, float_or_int=False, bound_lower=False, bound_upper=False, 
                 else:
                     break
     if convert_string:
-        return str(num_input)
-    else:
-        return num_input
+        num_input = str(num_input)
+    return num_input
 
-#input_str - asks for input, only accepts a string (as in, no answers that can be converted to floats or ints), repeats prompt until it gets one
-#nums_allowed - removes the "no floats or ints" rule; length - if you want the input string to be a certain length, specify here (optional); minimum - if True, changes conditional to require a string with a length greater than or equal to length
-def input_str(prompt, nums_allowed=False, length=False, minimum=False):
-    min_string = ""
-    numbers = [str(i) for i in range(0,10)]
-    numbers.append("-")
-    if minimum:
-        min_string = " or more"
+def input_str(prompt="", nums_allowed=False, length=False, minimum=False):
+    """
+    Asks for input, only accepts a non-empty string. If an invalid input is given, it asks for it again until it gets what you want.
+    nums_allowed: if True, integers are allowed in the input.
+    length: makes it so that the string must be X characters long to be valid.
+    minimum: turns the length argument into a minimum length that the string length must have or exceed.
+    """
+    min_string = " or more" if minimum else ""
     while True:
         str_input = input(prompt)
-        if not nums_allowed:
-            for j in str_input:
-                if j in numbers:
-                    print("Please input a valid string.")
-                    break
-            else:
-                if len(str_input) == 0:
-                    print("Please input a valid string.")
-                elif not str(length) == "False":
-                    if (not minimum and not len(str_input) == length) or (minimum and not len(str_input) >= length):
-                        print("Please input a string that is {}{} characters long.".format(length, min_string))
-                else:
-                    break
+        if not nums_allowed and any(x.isnumeric() for x in str_input):
+            print("Please input a valid string.")
         else:
-            break
+            if not len(str_input):
+                print("Please input a valid string.")
+            elif str(length) != "False":
+                if (not minimum and not len(str_input) == length) or (minimum and not len(str_input) >= length):
+                    print("Please input a string that is {}{} characters long.".format(length, min_string))
+            else:
+                break
     return str_input
 
-#input_question - asks for input that matches one of the choices in the choices list (choices_list should have at least 2 elements), returns a number equal to the index of the choice the user chooses; choices are entered as the second parameter via a list.
-#case_sensitive - bool that determines whether answers are determined with case sensitivity or not
-def input_question(prompt, choices_list, case_sensitive=False):
+def input_question(prompt="", choices=["y","n"], case_sensitive=False):
+    """
+    Asks for input that matches one of the choices in choices (len(choices) >= 2). If an invalid input is given, it asks for it again until it gets what you want.
+    Returns the index of the choice in choices.
+    choices: an iterable of choices.
+    case_sensitive: determines if the choice is case sensitive.
+    """
     invalid = "Please input "
-    for choice in choices_list:
-        if choices_list[-2] == choice:
-            invalid = invalid + "or {} .".format(choice)
+    for choice in choices:
+        if choices[-2] == choice:
+            invalid += "or {} .".format(choice)
         else:
-            invalid = invalid + "{}, ".format(choice)
-    if len(choices_list) == 2:
-        invalid = "Please input {} or {}.".format(choices_list[0] ,choices_list[1])
+            invalid += "{}, ".format(choice)
+    if len(choices) == 2:
+        invalid = "Please input {} or {}.".format(choices[0], choices[1])
 
     if not case_sensitive:
-        for i in range(len(choices_list)): choices_list[i] = choices_list[i].lower()
+        choices = [x.lower() for x in choices]
 
     while True:
         answer = input(prompt)
         if not case_sensitive:
             answer = answer.lower()
-        if answer not in choices_list:
+        if answer not in choices:
             print(invalid)
         else:
             return answer
 
-#input_characters - asks for input, only accepts it if it is only made up of characters found in the parameter list (or string); prints a parameter specified error message if it's invalid (also prints a different message if it is the wrong length, if specified. Can be used as an alternative to the above input functions or can be used for other purposes)
-def input_characters(prompt, characters, error_message="Input contains invalid characters. Please try again.", length=False):
-    for i in range(len(characters)):
-        characters[i] = str(characters[i])
+def input_characters(prompt="", characters="abcdefghijklmnopqrstuvyxyz", error_message="Input contains invalid characters. Please try again.", length=False):
+    """
+    Asks for input, only accepts it if it is only made up of characters found in the characters argument. If an invalid input is given, it asks for it again until it gets what you want.
+    characters: string/list/tuple/etc that contains a list of allowed characters. Is case sensitive.
+    error_message: lets you customize the error message.
+    length: makes it so that the string must be X characters long to be valid.
+    """
+    characters = [str(x) for x in characters]
     while True:
         answer = input(prompt)
         if answer == "":
             print("Please input a valid response.")
         else:
-            for character in answer:
-                if character not in characters:
-                    print(error_message)
-                    break
+            if any(x not in characters for x in answer):
+                print(error_message)
             else:
                 if length != False and len(answer) != length:
                     print("Please input a response that is {} characters long.".format(length))
@@ -297,38 +305,40 @@ def input_characters(prompt, characters, error_message="Input contains invalid c
                 return answer
         
 
-#input_split - asks for input, only accepts a string, splices the string into individual words and puts each word into a list.
-def input_split(prompt, nums_allowed=False, length=False, minimum=False):
-    return input_str(prompt, nums_allowed, length, minimum).split(" ")
+def input_split(prompt, nums_allowed=False, length=False, minimum=False, s=" "):
+    """
+    Equivalent to input_str(...).split(s)
+    """
+    return input_str(prompt, nums_allowed, length, minimum).split(s)
 
 #XdY+Z_roller - Rolls a Y sided die X times, can add multiple types of dice, adds modifier Z and prints total
 #allow repeats - if False, the user is only allowed to make one roll and that's it
 def XdY_Z_roller(allow_repeats=True):
-    rolls = []
-    sides = []
+    """
+    Rolls a Y sided die X times. Can add multiple types of dice, and then modifier Z can be added to the total.
+    allow_repeats: if True, allows the user to repeat the function.
+    """
+    rolls, sides = [], []
     current_dice = ""
     while True:
         rolls.append(input_num("Number of dice to roll: ", int, 1))
         sides.append(input_num("Number of sides: ", int, 2))
 
         if len(rolls) > 1:
-            current_dice = current_dice + " + "
+            current_dice += " + "
         current_dice = current_dice + "{}d{}".format(rolls[-1], sides[-1])
         print("Current dice: " + current_dice)
 
-        if input_question("Add more types of dice (Y/N)? ", ["y", "n"]) == "n":
+        if input_question("Add more types of dice (Y/N)? ") == "n":
             break
 
     mod = input_num("Modifier: ", int)
     result = mod
-    mod_str = ""
-    if mod != 0:
-        mod_str = " + {}".format(mod)
+    mod_str = " + {}".format(mod) if mod != 0 else ""
 
     for i in range(len(sides)):
-        for rolls_made in range(rolls[i]):
-            result = result + randint(1, sides[i])          
-    print("\nRoll of {}: ".format(current_dice + mod_str) + str(result))
+        result += sum(randint(1, sides[i]) for roles_made in range(rolls[i]))
+    print("\nRoll of {}{}:".format(current_dice, mod_str), result)
 
     while allow_repeats:
         d_loop = False
@@ -338,9 +348,8 @@ def XdY_Z_roller(allow_repeats=True):
         elif d_continue == 2:
             result = mod
             for i in range(len(sides)):
-                for rolls_made in range(rolls[i]):
-                    result = result + randint(1, sides[i])
-            print("\nRoll of {}: ".format(current_dice + mod_str) + str(result))
+                result += sum(randint(1, sides[i]) for roles_made in range(rolls[i]))
+    print("\nRoll of {}{}:".format(current_dice, mod_str), result)
         elif d_continue == 3:
             d_loop = True
             break
@@ -350,7 +359,6 @@ def XdY_Z_roller(allow_repeats=True):
         XdY_Z_roller()
 
 #the following dicts are to be used by the metric_conversions function
-
 metric_prefixes = {
     "peta": 10**15,
     "tera": 10**12,
@@ -453,17 +461,17 @@ def statistical_analysis_input(length=1, bFrequency=False):
 #statistical_analysis_print - prints out the following information about a list of data (must be a Data object)
 #d - the Data object you want to use; obtain via statistical_analysis_input() or manually
 def statistical_analysis_print(d):
-    print("Median: " + str(d.median()))
-    print("Mean: " + str(d.mean()))
-    print("Mode: " + str(d.mode(True)))
-    print("Minimum: " +  str(d.data[0]))
-    print("Maximum: " + str(d.data[-1]))
-    print("Range: " + str(d.range()))
-    print("Q1: " + str(d.q1()))
-    print("Q3: " + str(d.q3()))
-    print("Interquartile Range: " + str(d.iqr()))
-    print("Variance: " + str(d.variance()))
-    print("Standard Devation: " + str(d.standard_deviation()))
+    print("Median:", d.median())
+    print("Mean:", d.mean())
+    print("Mode:", d.mode(True))
+    print("Minimum:", d.data[0])
+    print("Maximum:", d.data[-1])
+    print("Range:", d.range())
+    print("Q1:", d.q1())
+    print("Q3:", d.q3())
+    print("Interquartile Range:", d.iqr())
+    print("Variance:", d.variance())
+    print("Standard Devation:", d.standard_deviation())
 
 #copy2clip - copies given text to the clipboard. original found at https://stackoverflow.com/questions/11063458/python-script-to-copy-text-to-clipboard/41029935#41029935
 #txt - text to copy; prnt - set to True if you want to also print the copied text
