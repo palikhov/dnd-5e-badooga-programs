@@ -17,4 +17,3 @@ if ["%~dp$PATH:1"] == [""] (
     cd "%~dp$PATH:1"
 )
 start /MAX "" code "." "%~nx1"
-exit
