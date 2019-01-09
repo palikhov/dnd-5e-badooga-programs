@@ -259,26 +259,26 @@ def input_question(prompt="", choices=["y","n"], case_sensitive=False):
     """
     Asks for input that matches one of the choices in choices (len(choices) >= 2). If an invalid input is given, it asks for it again until it gets what you want.
     Returns the index of the choice in choices.
-    choices: an iterable of choices.
+    choices: an iterable of choices in string format.
     case_sensitive: determines if the choice is case sensitive.
     """
     invalid = "Please input "
     for choice in choices:
-        if choices[-2] == choice:
-            invalid += "or {} .".format(choice)
+        if choices[-1] == choice:
+            invalid += "or {}.".format(choice)
         else:
             invalid += "{}, ".format(choice)
     if len(choices) == 2:
         invalid = "Please input {} or {}.".format(choices[0], choices[1])
 
     if not case_sensitive:
-        choices = [x.lower() for x in choices]
+        choices = [str(x).lower() for x in choices]
+    else:
+        choices = [str(x) for x in choices]
 
     while True:
         answer = input(prompt)
-        if not case_sensitive:
-            answer = answer.lower()
-        if answer not in choices:
+        if (not case_sensitive and answer.lower() not in choices) or (case_sensitive and answer not in choices):
             print(invalid)
         else:
             return answer
@@ -303,16 +303,7 @@ def input_characters(prompt="", characters="abcdefghijklmnopqrstuvyxyz", error_m
                     print("Please input a response that is {} characters long.".format(length))
                     continue
                 return answer
-        
 
-def input_split(prompt, nums_allowed=False, length=False, minimum=False, s=" "):
-    """
-    Equivalent to input_str(...).split(s)
-    """
-    return input_str(prompt, nums_allowed, length, minimum).split(s)
-
-#XdY+Z_roller - Rolls a Y sided die X times, can add multiple types of dice, adds modifier Z and prints total
-#allow repeats - if False, the user is only allowed to make one roll and that's it
 def XdY_Z_roller(allow_repeats=True):
     """
     Rolls a Y sided die X times. Can add multiple types of dice, and then modifier Z can be added to the total.
