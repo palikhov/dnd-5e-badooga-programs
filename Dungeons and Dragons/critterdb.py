@@ -35,7 +35,6 @@ while l < len(statblock):
 
 	elif switch:
 		statblock[l] = statblock[l].replace(">***", ">- **").replace("***", "**")
-		#print(statblock[l])
 	
 	if "Legendary Actions" in statblock[l] and "###" in statblock[l]:
 		switch = 1
