@@ -13,13 +13,9 @@ Happy brewing!
 
 import pyperclip
 
-#print(repr(pyperclip.paste()))
-
 spellcasting = [">" + x for x in ["At will: ", "Cantrip (at will)", "1/day", "2/day", "3/day", "1st level", "2nd level", "3rd level", "4th level", "5th level", "6th level", "7th level", "8th level", "9th level"]]
 
 statblock = pyperclip.paste().replace("\r","").split("\n")
-
-#print(statblock)
 
 switch = 0
 l = 0
