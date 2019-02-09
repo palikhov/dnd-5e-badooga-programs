@@ -11,14 +11,10 @@ if ["%~dp$PATH:1"] == [] (
 ) else (
     cd "%~dp$PATH:1"
 )
-pyinstaller --distpath "." --workpath .\exe_build_temp -F %1
+pyinstaller --distpath "." -F --specpath ".\exe_build_temp" --workpath ".\exe_build_temp" %1
 if NOT ["%errorlevel%"]==["0"] (
     echo "Error: A file called '%1' was not found."
     pause
     exit /b %errorlevel%
 )
-set str=%1
-set str=%str:.py=.spec%
-del %str%
 rmdir /S /Q exe_build_temp
-rmdir /S /Q __pycache__
