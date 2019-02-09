@@ -340,7 +340,7 @@ def XdY_Z_roller(allow_repeats=True):
             result = mod
             for i in range(len(sides)):
                 result += sum(randint(1, sides[i]) for roles_made in range(rolls[i]))
-    print("\nRoll of {}{}:".format(current_dice, mod_str), result)
+            print("\nRoll of {}{}:".format(current_dice, mod_str), result)
         elif d_continue == 3:
             d_loop = True
             break
