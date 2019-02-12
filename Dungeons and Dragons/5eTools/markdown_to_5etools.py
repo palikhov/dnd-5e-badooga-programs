@@ -2,7 +2,8 @@
 Made by badooga. Converts an adventure or book from markdown form to 5eTools.
 To use this script, pass the md file as an argument in the cmd.
 
-This script does not automatically input metadata, tables, or images, nor does it automatically content like monsters and spells to 5eTools:
+This script does not automatically input tags, metadata, tables, or images, nor does it automatically add content like monsters and spells to 5eTools:
+- For tags, add them to the markdown before using this script. Other than bold and italics tags, this script does not handle that sort of thing.
 - For tables, make them manually in markdown, and then use the 5eTools Text Converter to turn it into JSON. Paste this table into the main adventure/book once you are done.
 - For monsters, use CritterDB to transcribe a monster and to export it to Homebrewery/Markdown (you can transcribe it manually, but CritterDB speeds that up). Then use the 5eTools Text Converter to turn it into JSON, and include the monster in the adventure as normal.
 - For images, use the JSON format below and paste it into the main adventure/book.
@@ -27,6 +28,12 @@ See the example md file for formatting guidelines. In particular, note that all 
 
 >> This read aloud text is valid
 >>This read aloud text is not
+
+This list:
+- ***Is not valid.*** Triple asterisks are reserved for inline headers...
+
+This list:
+- **Is valid.** Using double asterisks to bold the text conveys the same meaning and avoids any issues with this script.
 
 Happy converting! And also, please don't try to decipher this garbage. I already lost my parents to it.
 """
@@ -63,7 +70,23 @@ for x, i in htext:
 			bInline2 = True
 		else:
 			continue
-	
+
+	if type(i) == str and i.startswith("-"):
+		bList = True
+		unorderedList["items"].append(i[1:].strip())
+		continue
+	elif bList:
+		if h4c > 0:
+			data[h1c]["entries"][-1]["entries"][-1]["entries"][-1]["entries"].append(unorderedList)
+		elif h3c > 0:
+			data[h1c]["entries"][-1]["entries"][-1]["entries"].append(unorderedList)
+		elif h2c > 0:
+			data[h1c]["entries"][-1]["entries"].append(unorderedList)
+		else:
+			data[h1c]["entries"].append(unorderedList)
+		unorderedList = {"type": "list", "items": []}
+		bList = False
+
 	if type(i) == str and i.startswith("> ") or i.startswith(">- "):
 		if not bInset:
 			bInset = True
@@ -118,6 +141,7 @@ for x, i in htext:
 
 	if bInline1:
 		inlineHeader["entries"].append(i)
+		continue
 	if bInline2:
 		if h4c > 0:
 			pass
@@ -130,26 +154,19 @@ for x, i in htext:
 			inlineHeader ={"type": "entries", "entries": [inlineHeader]}
 			inlineHeader ={"type": "entries", "entries": [inlineHeader]}
 			inlineHeader ={"type": "entries", "entries": [inlineHeader]}
-		i = inlineHeader
+	
+		if h4c > 0:
+			data[h1c]["entries"][-1]["entries"][-1]["entries"][-1]["entries"].append(inlineHeader)
+		elif h3c > 0:
+			data[h1c]["entries"][-1]["entries"][-1]["entries"].append(inlineHeader)
+		elif h2c > 0:
+			data[h1c]["entries"][-1]["entries"].append(inlineHeader)
+		else:
+			data[h1c]["entries"].append(inlineHeader)
 		bInline1, bInline2 = False, False
 		inlineHeader = {"type": "entries", "name": "", "entries": []}
-	
-	
-	if type(i) == str and i.startswith("-"):
-		bList = True
-		unorderedList["items"].append(i[1:].strip())
 		continue
-	elif bList:
-		if h4c > 0:
-			data[h1c]["entries"][-1]["entries"][-1]["entries"][-1]["entries"].append(unorderedList)
-		elif h3c > 0:
-			data[h1c]["entries"][-1]["entries"][-1]["entries"].append(unorderedList)
-		elif h2c > 0:
-			data[h1c]["entries"][-1]["entries"].append(unorderedList)
-		else:
-			data[h1c]["entries"].append(unorderedList)
-		unorderedList = {"type": "list", "items": []}
-		bList = False
+	
 		
 	if type(i) == str and i[2:] in h1:
 		h1c += 1
