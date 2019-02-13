@@ -206,7 +206,7 @@ If the characters choose to support a particular side, the other side will attac
 During the brawl, all of the NPCs use unarmed attacks. Should a character's hit points be reduced to zero, none of them are in danger of dying, and need not attempt saving throws to avoid doing so, although Markoth will brave the sea of fists, chairs and tankards to drag them out of the fight to prevent them from getting injured further.
 
 > ##### Unarmed Combat
-> An unarmed strike is a simple melee weapon that deals 1 bludgeoning damage. Characters with the Tavern Brawler feat deal 1d4 damage with an unarmed strike. Monks deal damage based on level and other class features.
+> An unarmed strike is a simple melee weapon that deals 1 bludgeoning damage. Characters with the {@feat Tavern Brawler} feat deal 1d4 damage with an unarmed strike. Monks deal damage based on level and other class features.
 
 #### Developments
 **If the characters are unable to stop the brawl**, the fight is over when all of the NPCs from whatever side the characters antagonize are unconscious, Imizael is obviously upset at everyone involved and shoos everyone out, then closes the tavern to clean up.
@@ -417,8 +417,7 @@ The tallest tower of the keep is located at the southern end right at the edge o
 
 Since then, the lighthouse has housed the contingent of Black Fist guards assigned to the Keep. With the exception of the top level, the three floors of this lighthouse contain the guards' common area, barracks, and sergeant's quarters in that order.
 
-***The Beacon.*** The door to the floor that houses the beacon is locked and is opened with a successful DC 10 Dexterity check or smashed open with a successful DC 15 Strength check. It has a wrap-around balcony which gives an excellent view on the surrounding area including Thorn Island and the city of Phlan. The room above is accessed by a ladder and the crystal and brass beacon stands in the center.
-A successful DC 10 Intelligence (Arcana) shows that nothing appears to be physically wrong with the device, but for some reason, it is not working. The device still radiates strong evocation magic.
+***The Beacon.*** The door to the floor that houses the beacon is locked and is opened with a successful DC 10 Dexterity check or smashed open with a successful DC 15 Strength check. It has a wrap-around balcony which gives an excellent view on the surrounding area including Thorn Island and the city of Phlan. The room above is accessed by a ladder and the crystal and brass beacon stands in the center. A successful DC 10 Intelligence (Arcana) shows that nothing appears to be physically wrong with the device, but for some reason, it is not working. The device still radiates strong evocation magic.
 
 #### Treasure
 One of the bunks on the third floor holds 20 gp in a hidden compartment.
@@ -511,9 +510,9 @@ The suits of {@creature animated armor} are quite ancient and in exceptionally p
 
 > ##### Adjusting the Adventure
 > Here are recommendations for adjusting this combat encounter. These are not cumulative.
->- Very weak or weak party: the barnacles inhibit the suits for the first two rounds of combat (the suits have disadvantage on all attacks) before breaking off
->- Strong party: add one suit of {@creature animated armor}
->- Very strong party: add one suit of {@creature animated armor} and all suits have 40 hit points.
+>- **Very weak or weak party:** the barnacles inhibit the suits for the first two rounds of combat (the suits have disadvantage on all attacks) before breaking off
+>- **Strong party:**add one suit of {@creature animated armor}
+>- **Very strong party:** add one suit of {@creature animated armor} and all suits have 40 hit points.
 
 ### 4. The Sinkhole
 >> The floor levels out in this 40-foot-in-diameter circular room. Despite the water that fills the room up to your shins, it is easy to notice the sinkhole that has opened in the middle, though seeing the bottom is impossible due to the amount of sediment that has accumulated here. The sides of the sinkhole are gently sloped, but covered in a thick coat of slick algae.
@@ -529,10 +528,10 @@ Resting at the bottom of the sinkhole is a pair of {@creature ghoul|mm|ghouls}, 
 
 > ##### Adjusting the Adventure
 > Here are recommendations for adjusting this combat encounter. These are not cumulative.
->- Very weak party: remove one {@creature ghoul} (the remaining ghoul has 13 hit points)
->- Weak party: remove one {@creature ghoul}
->- Strong party: add one {@creature ghoul}
->- Very strong party: add two {@creature ghoul|mm|ghouls}
+>- **Very weak party:** remove one {@creature ghoul} (the remaining ghoul has 13 hit points)
+>- **Weak party:** remove one {@creature ghoul}
+>- **Strong party:**add one {@creature ghoul}
+>- **Very strong party:** add two {@creature ghoul|mm|ghouls}
 
 ### 5. Cells
 This hallway slopes upwards at a gentle angle. Two small, square rooms on the right, may have once have served as prison cells, now they are empty. Holes on the doors and walls certainly suggest that these could once be bolted shut from the corridor's side. The brass doors are sturdy and stuck, requiring a successful DC 15 Strength check to open.
@@ -580,10 +579,10 @@ There are two {@creature zombie|mm|zombies} in this room (Igan and the dead guar
 
 > ##### Adjusting the Adventure
 > Here are recommendations for adjusting this combat encounter. These are not cumulative.
->- Very weak party: remove one {@creature ghoul} (the remaining ghoul has 13 hit points); if the party defeated the ghouls earlier, remove one {@creature skeleton}
->- Weak party: remove one {@creature ghoul}; if the defeated the ghouls earlier, no adjustment
->- Strong party: add two {@creature skeleton|mm|skeletons}
->- Very strong party: add four {@creature skeleton|mm|skeletons}
+>- **Very weak party:** remove one {@creature ghoul} (the remaining ghoul has 13 hit points); if the party defeated the ghouls earlier, remove one {@creature skeleton}
+>- **Weak party:** remove one {@creature ghoul}; if the defeated the ghouls earlier, no adjustment
+>- **Strong party:**add two {@creature skeleton|mm|skeletons}
+>- **Very strong party:** add four {@creature skeleton|mm|skeletons}
 
 #### Developments
 With the defeat of the undead guardians, the characters are free to investigate the room. It doesn't take much skill to learn the young man on the altar was stabbed in the back with the dagger. There are no signs of a struggle, and at a first glance it does not look like he was purposefully sacrificed on the altar. Removing the body from the altar and cleansing the altar with a proper ritual requires a successful DC 10 Intelligence (Religion) check. Success on this check causes the idol to glow with a pale green light.
@@ -630,7 +629,7 @@ Assuming that the characters consider the history of the Keep, they may realize 
 
 ***Release the guards.*** If the characters release the guards and remain silent about their crimes, they flee Phlan and never return. **Harae's curse remains and the beacon remains dark.**
 
-## Rewards
+# Rewards
 Make sure the players note their rewards on their adventure logsheets. Give your name and DCI number (if applicable) so players can record who ran the session.
 
 ### Experience
