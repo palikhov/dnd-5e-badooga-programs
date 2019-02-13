@@ -1,6 +1,7 @@
 """
-Made by badooga. Converts an adventure or book from markdown form to 5eTools.
-To use this script, pass the md file as an argument in the cmd.
+Made by badooga. https://github.com/badooga/Programs/
+
+This script converts an adventure or book from markdown form to 5eTools. To use it, pass the md file as an argument in the cmd.
 
 This script does not automatically input tags, metadata, tables, or images, nor does it automatically add content like monsters and spells to 5eTools:
 - For tags, add them to the markdown before using this script. Other than bold and italics tags, this script does not handle that sort of thing.
@@ -18,7 +19,7 @@ This script does not automatically input tags, metadata, tables, or images, nor 
 	"title": "Player Handout 1"
 },
 
-See the example md file for formatting guidelines. In particular, note that all forms of extra formatting require spaces:
+See the example md file in the linked repository (in the same folder as this script) for formatting guidelines. In particular, note that all forms of extra formatting require spaces:
 
 #### This h4 header is valid
 ####This h4 header is not.
@@ -71,6 +72,9 @@ for x, i in htext:
 			bInline2 = True
 		else:
 			continue
+
+	if type(i) == str:
+		i = i.strip()
 
 	if type(i) == str and i.startswith("-"):
 		bList = True
