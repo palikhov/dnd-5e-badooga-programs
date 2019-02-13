@@ -206,7 +206,7 @@ If the characters choose to support a particular side, the other side will attac
 During the brawl, all of the NPCs use unarmed attacks. Should a character's hit points be reduced to zero, none of them are in danger of dying, and need not attempt saving throws to avoid doing so, although Markoth will brave the sea of fists, chairs and tankards to drag them out of the fight to prevent them from getting injured further.
 
 > ##### Unarmed Combat
-> An unarmed strike is a simple melee weapon that deals 1 bludgeoning damage. Characters with the {@feat Tavern Brawler} feat deal 1d4 damage with an unarmed strike. Monks deal damage based on level and other class features.
+> An unarmed strike is a simple melee weapon that deals 1 bludgeoning damage. Characters with the {@feat Tavern Brawler} feat deal 1d4 damage with an unarmed strike. {@class monk|phb|Monks} deal damage based on level and other class features.
 
 #### Developments
 **If the characters are unable to stop the brawl**, the fight is over when all of the NPCs from whatever side the characters antagonize are unconscious, Imizael is obviously upset at everyone involved and shoos everyone out, then closes the tavern to clean up.
