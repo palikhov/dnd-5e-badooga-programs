@@ -57,7 +57,7 @@ This adventure is **optimized for a party of five 2nd level characters**. To fig
 
 - Add up the total levels of all the characters
 - Divide the total by the number of characters
-- Round fractions of .5 or greater up; round frations of less than .5 down
+- Round fractions of .5 or greater up; round fractions of less than .5 down
 
 You've now determined the **average party level (APL)** for the adventure. To figure out the party strength for the adventure, consult the following table.
 
