@@ -7,6 +7,7 @@ This script does not automatically input tags, metadata, or images, nor does it 
 - For tags, add them to the markdown before using this script. Other than bold and italics tags, this script does not handle that sort of thing.
 - For monsters, use CritterDB to transcribe a monster and to export it to Homebrewery/Markdown (you can transcribe it manually, but CritterDB speeds that up). Then use the 5eTools Text Converter to turn it into JSON, and include the monster in the adventure as normal.
 - For images, use the JSON format below and paste it into the main adventure/book after using this script.
+- For tables, you will have to adjust the col-styles manually, if you feel that they need adjusting.
 - If you're using this for homebrew, you'll have to do the metadata (_meta) yourself. This script also handles the table of contents for you, but you might want to double check it to make sure it's to your satisfaction.
 
 Example image format:
