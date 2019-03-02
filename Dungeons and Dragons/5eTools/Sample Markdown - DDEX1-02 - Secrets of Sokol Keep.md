@@ -61,6 +61,18 @@ This adventure is **optimized for a party of five 2nd level characters**. To fig
 
 You've now determined the **average party level (APL)** for the adventure. To figure out the party strength for the adventure, consult the following table.
 
+##### Determining Party Strength
+| Party Composition                | Party Strength |
+|----------------------------------|----------------|
+| 3-4 characters, APL less than    | Very weak      |
+| 3-4 characters, APL equivalent   | Weak           |
+| 3-4 characters, APL greater than | Average        |
+| 5 characters, APL less than      | Weak           |
+| 5 characters, APL equivalent     | Average        |
+| 5 characters, APL greater than   | Strong         |
+| 6-7 characters, APL less than    | Average        |
+| 6-7 characters, APL equivalent   | Strong         |
+| 6-7 characters, APL greater than | Very strong    |
 
 **Average party strength** indicates no recommended adjustments to the adventure. Each sidebar may or may not offer suggestions for certain party strengths. If a particular recommendation is not offered for your group, you don't have to make adjustments.
 
@@ -97,6 +109,19 @@ In addition, whenever a character spends downtime days, that character also spen
 Any settlement the size of a town or larger can provide some spellcasting services. Characters need to be able to travel to the settlement to obtain these services. Alternatively, if the party finishes an adventure, they can be assumed to return to the settlement closest to the adventure location.
 
 Spell services generally available include healing and recovery spells, as well as information-gathering spells. Other spell services might be available as specified in the adventure. The number of spells available to be cast as a service is limited to a **maximum of three per day total**, unless otherwise noted.
+
+##### Spellcasting Services
+| Spell                                  | Cost     |
+|----------------------------------------|----------|
+| {@spell Cure wounds} (1st level)       | 10 gp    |
+| {@spell Identify}                      | 20 gp    |
+| {@spell Lesser restoration}            | 40 gp    |
+| {@spell Prayer of healing} (2nd level) | 40 gp    |
+| {@spell Remove curse}                  | 90 gp    |
+| {@spell Speak with dead}               | 90 gp    |
+| {@spell Divination}                    | 210 gp   |
+| {@spell Greater restoration}           | 450 gp   |
+| {@spell Raise dead}                    | 1,250 gp |
 
 > ##### Acolyte Background
 > A character possessing the {@background acolyte} background requesting spellcasting services at a temple of his or her faith may request **one spell per day** from the Spellcasting Services table for free. The only cost paid for the spell is the base price for the consumed material component, if any.
@@ -225,7 +250,7 @@ Regardless of whether or not the characters stopped or participated in the fight
 ***Keria and Aravele.*** Keria and Aravele know Guard Sergeant Grim personally and are relate the following:
 
 - Guard Sergeant Grim is a foolhardy man who is usually in debt to the wrong sort of people. He's spends his off-duty time trying to come up with ways to get money quick.
-- Grim has befriended Igan Sokol, the quartermaster in charge of the keep; a somewhat naïve, enthusiastic young man eager to make a name for himself amongst his house.
+- Grim has befriended Igan Sokol, the quartermaster in charge of the keep; a somewhat naive, enthusiastic young man eager to make a name for himself amongst his house.
 - Grim mentioned a treasure below the keep and that he was close to finding it. They are pretty sure he was spinning tall tales, as usual.
 - The Black Fist has been openly recruiting in response to rumors of a spirit ship attacking coastal villages in the area.
 - Go talk to Guard Sergeant Hurn at the Black Fist Post by the docks. He'll be able to give you more information.
@@ -511,7 +536,7 @@ The suits of {@creature animated armor} are quite ancient and in exceptionally p
 > ##### Adjusting the Adventure
 > Here are recommendations for adjusting this combat encounter. These are not cumulative.
 >- **Very weak or weak party:** the barnacles inhibit the suits for the first two rounds of combat (the suits have disadvantage on all attacks) before breaking off
->- **Strong party:**add one suit of {@creature animated armor}
+>- **Strong party:** add one suit of {@creature animated armor}
 >- **Very strong party:** add one suit of {@creature animated armor} and all suits have 40 hit points.
 
 ### 4. The Sinkhole
@@ -635,7 +660,27 @@ Make sure the players note their rewards on their adventure logsheets. Give your
 ### Experience
 Total up all **combat experience** earned for defeated foes, and divide by the number of characters present in the combat. For **non-combat experience**, the rewards listed are per character. Give all characters in the party non-combat experience awards unless otherwise noted.
 
-The **minimum** total award for each character participating in this adventure is **450 experience points**. The **maximum** total award for each character participating in this adventure is **600 experience points**.
+##### Combat Awards
+| Name of Foe | XP per Foe   |
+|-------------|--------------|
+| Animated armor       | 200 |
+| Commoner             | 10  |
+| Ghoul                | 200 |
+| Grim, Guard Sergeant | 100 |
+| Guard                | 25  |
+| Skeleton             | 50  |
+| Zombie               | 50  |
+
+##### Non-Combat Awards
+| Task or Accomplishment                                    | XP per Character |
+|-----------------------------------------------------------|------------------|
+| Getting information from Harae                            | 50               |
+| Getting the curse lifted and the lighthouse relit         | 100              |
+| Bring Grim and the guards to justice without killing them | 150              |
+
+The **minimum** total award for each character participating in this adventure is **450 experience points**.
+
+The **maximum** total award for each character participating in this adventure is **600 experience points**.
 
 ### Treasure
 The characters receive the following treasure, divided up amongst the party. Characters should attempt to divide treasure evenly whenever possible. Gold piece values listed for sellable gear are calculated at their selling price, not their purchase price.
@@ -643,6 +688,19 @@ The characters receive the following treasure, divided up amongst the party. Cha
 **Consumable magic items** should be divided up however the group sees fit. If more than one character is interested in a specific consumable magic item, the DM can determine who gets it randomly should the group be unable to decide.
 
 **Permanent magic items** are divided up according to a system. See the sidebar if the adventure awards permanent magic items.
+
+##### Treasure Awards
+| Item Name                          | GP Value  |
+|------------------------------------|-----------|
+| Pouch of platinum                  | 50        |
+| Silver holy symbol of Tyr          | 50        |
+| Moonsea Cults                      | 20        |
+| Gold in hidden compartment in bunk | 20        |
+| Igan's coinpurse                   | 35        |
+| Coins in pool at jade idol's feet  | 50        |
+| Chunk of jade idol (per character) | 50 or 100 |
+| Grim's looted treasure             | 100       |
+| Grim's splint armor                | 100       |
 
 #### "Moonsea Cults"
 Thailoss of Tyr wrote a book on various cults in the Moonsea region. The book can be sold for 20 gp, or a character can keep it. If a character keeps the book, and is able to reference it, the character gains advantage on Intelligence checks regarding cults of the Moonsea region.
