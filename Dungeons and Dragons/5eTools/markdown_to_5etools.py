@@ -271,7 +271,7 @@ for x, i in hlist:
 	elif (x, i) in h2 or i in h3d:
 		headers[counter]["headers"].append(i)
 
-# Nests all of this data into the proper 5eTools format, with blank strings for you to fill in
+# Nests all of this data into the proper 5eTools format, with blank strings for you to fill in; if you are making a book, change "adventure" to "book"
 data = {
 	"adventure": [
 		{
