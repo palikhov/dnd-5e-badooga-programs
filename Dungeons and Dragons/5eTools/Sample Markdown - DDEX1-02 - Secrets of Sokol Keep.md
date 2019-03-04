@@ -555,7 +555,7 @@ Resting at the bottom of the sinkhole is a pair of {@creature ghoul|mm|ghouls}, 
 > Here are recommendations for adjusting this combat encounter. These are not cumulative.
 >- **Very weak party:** remove one {@creature ghoul} (the remaining ghoul has 13 hit points)
 >- **Weak party:** remove one {@creature ghoul}
->- **Strong party:**add one {@creature ghoul}
+>- **Strong party:** add one {@creature ghoul}
 >- **Very strong party:** add two {@creature ghoul|mm|ghouls}
 
 ### 5. Cells
@@ -606,7 +606,7 @@ There are two {@creature zombie|mm|zombies} in this room (Igan and the dead guar
 > Here are recommendations for adjusting this combat encounter. These are not cumulative.
 >- **Very weak party:** remove one {@creature ghoul} (the remaining ghoul has 13 hit points); if the party defeated the ghouls earlier, remove one {@creature skeleton}
 >- **Weak party:** remove one {@creature ghoul}; if the defeated the ghouls earlier, no adjustment
->- **Strong party:**add two {@creature skeleton|mm|skeletons}
+>- **Strong party:** add two {@creature skeleton|mm|skeletons}
 >- **Very strong party:** add four {@creature skeleton|mm|skeletons}
 
 #### Developments
