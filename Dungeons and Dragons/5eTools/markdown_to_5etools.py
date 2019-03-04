@@ -4,6 +4,7 @@ Made by badooga. https://github.com/badooga/Programs/
 This script converts an adventure or book from markdown form to 5eTools. To use it, pass the md file as an argument in the cmd.
 
 This script does not automatically input tags, metadata, or images, nor does it automatically add content like monsters and spells to 5eTools:
+- Make sure the first line of your document is an h1 header (# Header Title)!
 - For tags, add them to the markdown before using this script. Other than bold and italics tags, this script does not handle that sort of thing.
 - For monsters, use CritterDB to transcribe a monster and to export it to Homebrewery/Markdown (you can transcribe it manually, but CritterDB speeds that up). Then use the 5eTools Text Converter to turn it into JSON, and include the monster in the adventure as normal.
 - For images, use the JSON format below and paste it into the main adventure/book after using this script.
@@ -20,16 +21,7 @@ Example image format:
 	"title": "Player Handout 1"
 },
 
-See the example md file in the linked repository (in the same folder as this script) for formatting guidelines. In particular, note that all forms of extra formatting require spaces:
-
-#### This h4 header is valid
-####This h4 header is not.
-
-> ##### Sidebar          >#####Sidebar
-> This is valid          >This is not
-
->> This read aloud text is valid
->>This read aloud text is not
+See the example md file in the linked repository (in the same folder as this script) for formatting guidelines. In particular, note the following:
 
 This list:
 - ***Is not valid.*** Triple asterisks are reserved for inline headers.
@@ -38,13 +30,13 @@ This list:
 - **Is valid.** Using double asterisks to bold the text conveys the same meaning and avoids any issues with this script.
 
 ##### This table
-| Is Valid | A version of line below is necessary |
-|----------|--------------------------------------|
-| Entry 1  | Description 1       |
+
+| Is not valid   | Note the above line break is not valid, and that the line with dashes (see below) is absent. |
+| Entry 1        | Description 1       |
 
 ##### This table
-
-| Is not   | Note the above line break is not valid, and that the line with dashes is absent. |
+| Is Valid | A version of line below is required |
+|----------|--------------------------------------|
 | Entry 1  | Description 1       |
 
 Happy converting!
@@ -131,14 +123,15 @@ for x, i in htext:
 			continue
 
 	i = i.strip()
+	ii = i.replace("#", "").strip()
 
 	# Formatting for a table - bTable is switched when the table starts and ends, bTable2 is used when there is an optional caption, and bTable3 is used to format the text-align
-	if not bTable and (i.startswith("##### ") or i.startswith("|")):
+	if not bTable and (i.startswith("#####") or i.startswith("|")):
 		bTable = True
 		bTable3 = True
-		if i.startswith("##### "):
+		if i.startswith("#####"):
 			bTable2 = True
-			table["caption"] = i[6:].strip()
+			table["caption"] = ii.strip()
 			continue
 		else:
 			table["colLabels"] = [t.strip() for t in i.split("|") if t != ""]
@@ -161,7 +154,7 @@ for x, i in htext:
 	
 	elif i.startswith("|"):
 		table["rows"].append([t.strip() for t in i.split("|") if t.strip() != ""])
-		continue		
+		continue
 
 	# unorderedList - bList is switched when the list starts and ends; for the sake of line space, this is what every bItem variable does unless it has a number on it
 	if i.startswith("-"):
@@ -174,13 +167,24 @@ for x, i in htext:
 		unorderedList = {"type": "list", "items": []}
 		bList = False
 
+	# insetReadAloud
+	if i.startswith(">>"):
+		bRead = True
+		insetReadAloud["entries"].append(i.replace(">>", "").strip())
+		continue
+	elif bRead:
+		add(insetReadAloud)
+		insetReadAloud = {"type": "insetReadaloud", "entries": []}
+		bRead = False
+
 	# inset - both regular insets and lists within insets (line 181)
-	if i.startswith("> ") or i.startswith(">- "):
+	if i.startswith(">") or i.startswith(">-"):
+		print(repr(i), i.startswith(">>"))
 		if not bInset:
 			bInset = True
 			inset["name"] = i.replace("#####", "").replace(">", "").strip()
 		else:
-			if i.startswith(">- "):
+			if i.startswith(">-"):
 				if not bListInset:
 					inset["entries"].append({"type": "list", "items": [i.replace(">-", "").strip()]})
 					li = len(inset["entries"]) - 1
@@ -189,22 +193,12 @@ for x, i in htext:
 					inset["entries"][li]["items"].append(i.replace(">-", "").strip())
 			else:
 				bListInset = False
-				inset["entries"].append(i[2:])
+				inset["entries"].append(i.replace(">", "").strip())
 		continue
 	elif bInset:
 		add(inset)
 		inset = {"type": "inset", "name": "", "entries": []}
 		bInset = False
-
-	# insetReadAloud
-	if i.startswith(">> "):
-		bRead = True
-		insetReadAloud["entries"].append(i.replace(">>", "").strip())
-		continue
-	elif bRead:
-		add(insetReadAloud)
-		insetReadAloud = {"type": "insetReadaloud", "entries": []}
-		bRead = False
 
 	# inlineHeader - bInline2 is used alongside bInline1 to continue adding paragraphs until a blank line is encountered
 	if i.startswith("***"):
@@ -226,31 +220,31 @@ for x, i in htext:
 		continue
 	
 	# Headers - lines 227 through 252 detect if a line has a header in it, and then adjusts the nesting accordingly
-	if i[2:] in h1:
+	if ii in h1:
 		h1c += 1
 		h2c, h3c, h4c = z
 
-	elif i[3:] in h2:
+	elif ii in h2:
 		h2c += 1
-		data[h1c]["entries"].append({"type": "section", "name": i[3:], "entries":[]})
+		data[h1c]["entries"].append({"type": "section", "name": ii, "entries":[]})
 		h3c, h4c = z[1:]
 		h3_h2 = False
 
-	elif i[4:] in h3:
+	elif ii in h3:
 		h3c += 1
 		h4c = 0
 		if not h2c:
 			h3_h2 = True
-			h3d.append(i[4:])
-			data[h1c]["entries"].append({"type": "entries", "name": i[4:], "entries": []})
+			h3d.append(ii)
+			data[h1c]["entries"].append({"type": "entries", "name": ii, "entries": []})
 		else:
-			data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": i[4:], "entries": []})
+			data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
 
-	elif i[5:] in h4:
+	elif ii in h4:
 		if not h2c:
-			data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": i[5:], "entries": []})
+			data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
 		else:
-			data[h1c]["entries"][-1]["entries"][-1]["entries"].append({"type": "entries", "name": i[5:], "entries": []})
+			data[h1c]["entries"][-1]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
 		h4c += 1
 	
 	# if it isn't a header and the line is a normal line, it gets add()-ed here
