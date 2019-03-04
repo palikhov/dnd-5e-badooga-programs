@@ -179,7 +179,6 @@ for x, i in htext:
 
 	# inset - both regular insets and lists within insets (line 181)
 	if i.startswith(">") or i.startswith(">-"):
-		print(repr(i), i.startswith(">>"))
 		if not bInset:
 			bInset = True
 			inset["name"] = i.replace("#####", "").replace(">", "").strip()
