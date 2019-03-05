@@ -154,7 +154,7 @@ Well aware that his job was a kind of banishment, Igan thought that finding the 
 
 Unlike any previous treasure hunters, Igan had one huge advantage. Igan had been raised at the Keep, and at a young age he had found a well-hidden shrine of Tyr-long since forgotten. He restored it and maintained it ever since. Unbeknownst to others, the shrine was haunted by the spirit of a female cleric of Tyr, named Harae. The spirit knew of the treasure below the keep, and wanted to reward the young man for his dedication to the shrine. Hardly more than the sheerest presence, she was unable to truly interact with the world beyond moving small items around. Nevertheless, moving the right books and opening them to the correct pages was all that it took.
 
-With the help of the spirit, Grim, and the other Black Fist guards, Igan found the hidden caverns beneath the keep and the expected treasure within. Upon seeing it, Igan thought the treasure to be evil, and wanted it destroyed. But greed overcame Grim and the other soldiers. Grim murdered Igan and had hoped to set sail in the night, but the murder awoke the long dormant guardians of the temple, trapping Grim and his co- conspirators in the dungeon below. In the spirit's anger and sadness, Harae disabled the lighthouse, hoping that she would catch the attention of adventurers who would come and recover Igan's body, arrest the murderers, and cleanse the island of undead for good.
+With the help of the spirit, Grim, and the other Black Fist guards, Igan found the hidden caverns beneath the keep and the expected treasure within. Upon seeing it, Igan thought the treasure to be evil, and wanted it destroyed. But greed overcame Grim and the other soldiers. Grim murdered Igan and had hoped to set sail in the night, but the murder awoke the long dormant guardians of the temple, trapping Grim and his co-conspirators in the dungeon below. In the spirit's anger and sadness, Harae disabled the lighthouse, hoping that she would catch the attention of adventurers who would come and recover Igan's body, arrest the murderers, and cleanse the island of undead for good.
 
 Lured by rumors of treasure and locals beseeching the characters to restore the beacon, the characters now have to explore the island to find out what happened and bring the murders to justice.
 
@@ -247,8 +247,7 @@ After the brawl, both the dockworkers and the mercenaries are outside the tavern
 #### Rumors
 Regardless of whether or not the characters stopped or participated in the fight, they can talk with the dockworkers and/or the mercenaries to get more information.
 
-***Keria and Aravele.*** Keria and Aravele know Guard Sergeant Grim personally and are relate the following:
-
+***Keria and Aravele.*** Keria and Aravele know Guard Sergeant Grim personally and can relay the following:
 - Guard Sergeant Grim is a foolhardy man who is usually in debt to the wrong sort of people. He's spends his off-duty time trying to come up with ways to get money quick.
 - Grim has befriended Igan Sokol, the quartermaster in charge of the keep; a somewhat naive, enthusiastic young man eager to make a name for himself amongst his house.
 - Grim mentioned a treasure below the keep and that he was close to finding it. They are pretty sure he was spinning tall tales, as usual.
@@ -256,7 +255,6 @@ Regardless of whether or not the characters stopped or participated in the fight
 - Go talk to Guard Sergeant Hurn at the Black Fist Post by the docks. He'll be able to give you more information.
 
 ***The Dockworkers.*** The dockworkers' information is more oriented towards the Keep itself.
-
 - Rumor has it that the Keep is haunted with the spirit of dead clerics who died "A thousand and one years ago!"
 - It used to be a temple to some god or another, but none of them agree on which one. One says Torm, another Tyr, and a third insists that they're both wrong and suggest that it was the headquarters for some pagan cult.
 - They have heard rumors about spirit ships attacking nearby villages. Ensuring that the beacon is lit should be a priority of the city if that's true.
@@ -318,7 +316,6 @@ Thorn Island is relatively close to the docks, but is surrounded by dangerous ro
 ***Rowing.*** While it is easy to find a boat for sale or rent, they must pay its owner 5 gp for the rental and a 25 gp deposit in case they damage or lose it. Getting to the island is easy enough, but avoiding the rocks requires either successful a DC 10 Wisdom (Nature) by the navigator or a successful DC 10 Strength (Athletics) check by the rower to avoid dashing the boat against the rocks. Failure results in the boat being damaged (not seaworthy unless repaired).
 
 ***Ferry.*** The easiest, cheapest and safest method of arriving on the island is by ferry. The ferryman, Karst, is a bitter, elderly fellow who has worked as a ferryman for nearly forty years. The events in Phlan have taken its toll on his livelihood and he has not seen much in the way of coin. Were it not for his old age he would have left long ago. He is willing to ferry the characters to the island for 1 gp and a flimsy excuse. If they have obtained permission from House Sokol or the Black Fist, he does it for free. Karst doesn't talk much, but if asked will provide the following nuggets of insight:
-
 - He knows Darvag, Shandra, and Rorin, and spoke to them the day prior. They appear to be in good health.
 - The Black Fist have a detachment of six guards on the island at any given time.
 - Being chosen for the detail is usually a punishment for some infraction of the rules.
@@ -458,7 +455,6 @@ Once through the door, the characters find themselves in a well-maintained shrin
 
 ***Journal.*** The journal lacks easy reference points. There are no dates, just random notes all over the page including sentences in the margins. It seems more like a collection of thoughts and notes than an actual journal. The handwriting is decent though.
 The journal is difficult to read. The entries ramble at length and consuming all of it takes at least two hours, but upon succeeding at a DC 10 Intelligence check, anyone reading the journal realizes the following:
-
 - Igan started his search on a whim.
 - He never took the search serious until he met Sergeant Grim.
 - Igan became more serious about his search after a book about Tyr literally fell into his lap (The doing of Harae, the spirit haunting the Keep)
