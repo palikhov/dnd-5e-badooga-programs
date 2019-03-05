@@ -55,7 +55,7 @@ This list:
 Happy converting!
 """
 
-# Line 54 through 62 read the data from the file passed as an argument and convert it to a list of lines to be iterated through
+# The next few lines collect the data from the file passed as an argument and convert it to a list of lines to be iterated through
 
 from sys import argv
 import json
