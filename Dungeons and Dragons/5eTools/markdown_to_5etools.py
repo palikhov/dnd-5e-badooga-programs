@@ -29,6 +29,19 @@ This list:
 This list:
 - **Is valid.** Using double asterisks to bold the text conveys the same meaning and avoids any issues with this script.
 
+----------------------------------
+
+***This inline header and list combo.*** Is not valid.
+
+- Note the line break above.
+- It probably won't kill you to do this, but to receive the right output, see below.
+
+***This inline header and list combo.*** Is valid.
+- Putting the list here will nest things properly.
+- For the record, that extra line break is the source of many headaches.
+
+---------------------------------
+
 ##### This table
 
 | Is not valid   | Note the above line break is not valid, and that the line with dashes (see below) is absent. |
@@ -63,9 +76,9 @@ text = text.split("\n# ")[1:]
 z = [0, 0, 0]
 h1c, h2c, h3c, h4c = -1, *z
 
-# Initializes flags for each type of special formatting; the "b" stands for "boolean"; h3_h2 is a special flag used when detecting h3 headers that don't have h2 parents
+# Initializes flags for each type of special formatting; the "b" stands for "boolean", but the actual var is an integer so that I don't have to type a boolean every time every time; bh3_h2 is a special flag used when detecting h3 headers that don't have h2 parents
 
-bInset, bRead, bInline1, bInline2, bList, h3_h2, bListInset, bTable, bTable2, bTable3 = [False] * 10
+bInset, bRead, bInline1, bInline2, bList, bh3_h2, bListInset, bTable, bTable2, bTable3, bInlineList = [0] * 11
 
 # Initializes structure used for each type of special formatting
 
@@ -76,17 +89,16 @@ unorderedList = {"type": "list", "items": []}
 table = {"type": "table", "colLabels": [], "colStyles": [], "rows": []}
 
 # Function used to add various data to the output based on the appropriate nesting structure
-# i_switch is kinda weird, it prevents syntax errors so I don't want to touch it; if you get any errors citing line 92 below, mention that i_switch is the problem in the bug report
 
-def add(dtext, i_switch=False):
-	global h1c, h2c, h3c, h4c, h3_h2, data
+def add(dtext):
+	global h1c, h2c, h3c, h4c, bh3_h2, data
 	if h4c > 0:
-		if not (i_switch or h3_h2) and not (not i_switch and h2c):
+		if not bh3_h2:	
 			data[h1c]["entries"][-1]["entries"][-1]["entries"][-1]["entries"].append(dtext)
 		else:
 			data[h1c]["entries"][-1]["entries"][-1]["entries"].append(dtext)
 	elif h3c > 0:
-		if not h3_h2:
+		if not bh3_h2:
 			data[h1c]["entries"][-1]["entries"][-1]["entries"].append(dtext)
 		else:
 			data[h1c]["entries"][-1]["entries"].append(dtext)
@@ -99,26 +111,31 @@ def add(dtext, i_switch=False):
 
 def indent():
 	global h1c, h2c, h3c, h4c
-	def iter():
+	def iter(n=1):
 		global inlineHeader
-		inlineHeader = {"type": "entries", "entries": [inlineHeader]}
-	if not [h1c, h2c, h3c, h4c] == [0, 0, 0, 0] and not (h4c and not h3_h2): iter()
-	if any([h3c and h3_h2, h2c, h1c]): iter()
-	if h1c: iter()
+		for _ in range(n): inlineHeader = {"type": "entries", "entries": [inlineHeader]}
+	if h4c > 0: iter(bh3_h2)
+	elif h3c > 0: iter(1 + bh3_h2)
+	elif h2c > 0: iter(2)
+	elif h1c > 0: iter(3)
 
-for x, i in htext:
+for x, i in htext: #htext[:300]:
 	# Resets a few things back to default + skips to the next line when it detects a blank line
 	# As the first line is always going to be a h1 header and is already accounted for on line 65, it can be skipped
 	if not x or i == "":
 		if bTable:
 			add(table)
 			table = {"type": "table", "colLabels": [], "colStyles": [], "rows": []}
-			bTable = False
+			bTable = 0
 		if not x:
 			h1c += 1
-		if bInline1:
-			bInline1 = False
-			bInline2 = True
+		if bList:
+			add(unorderedList)
+			unorderedList = {"type": "list", "items": []}
+			bList = 0
+		elif bInline1:
+			bInline1 = 0
+			bInline2 = 1
 		else:
 			continue
 
@@ -127,17 +144,17 @@ for x, i in htext:
 
 	# Formatting for a table - bTable is switched when the table starts and ends, bTable2 is used when there is an optional caption, and bTable3 is used to format the text-align
 	if not bTable and (i.startswith("#####") or i.startswith("|")):
-		bTable = True
-		bTable3 = True
+		bTable = 1
+		bTable3 = 1
 		if i.startswith("#####"):
-			bTable2 = True
+			bTable2 = 1
 			table["caption"] = ii.strip()
 			continue
 		else:
 			table["colLabels"] = [t.strip() for t in i.split("|") if t != ""]
 			continue
 	elif bTable2:
-		bTable2 = False
+		bTable2 = 0
 		table["colLabels"] = [t.strip() for t in i.split("|") if t != ""]
 		continue
 	elif bTable3:
@@ -149,59 +166,48 @@ for x, i in htext:
 				table["colStyles"].append("text-align-right")
 			else:
 				table["colStyles"].append("text-align-left")
-		bTable3 = False
+		bTable3 = 0
 		continue
 	
 	elif i.startswith("|"):
 		table["rows"].append([t.strip() for t in i.split("|") if t.strip() != ""])
 		continue
 
-	# unorderedList - bList is switched when the list starts and ends; for the sake of line space, this is what every bItem variable does unless it has a number on it
-	if i.startswith("-"):
-		bList = True
-		unorderedList["items"].append(i[1:].strip())
-		continue
-
-	elif bList:
-		add(unorderedList)
-		unorderedList = {"type": "list", "items": []}
-		bList = False
-
-	# insetReadAloud
+	# insetReadAloud - must come before inset
 	if i.startswith(">>"):
-		bRead = True
+		bRead = 1
 		insetReadAloud["entries"].append(i.replace(">>", "").strip())
 		continue
 	elif bRead:
 		add(insetReadAloud)
 		insetReadAloud = {"type": "insetReadaloud", "entries": []}
-		bRead = False
+		bRead = 0
 
-	# inset - both regular insets and lists within insets (line 181)
+	# inset - both regular insets and lists within insets (line 181); must come before inlineHeader and unorderedList
 	if i.startswith(">") or i.startswith(">-"):
 		if not bInset:
-			bInset = True
+			bInset = 1
 			inset["name"] = i.replace("#####", "").replace(">", "").strip()
 		else:
 			if i.startswith(">-"):
 				if not bListInset:
 					inset["entries"].append({"type": "list", "items": [i.replace(">-", "").strip()]})
 					li = len(inset["entries"]) - 1
-					bListInset = True
+					bListInset = 1
 				else:
 					inset["entries"][li]["items"].append(i.replace(">-", "").strip())
 			else:
-				bListInset = False
+				bListInset = 0
 				inset["entries"].append(i.replace(">", "").strip())
 		continue
 	elif bInset:
 		add(inset)
 		inset = {"type": "inset", "name": "", "entries": []}
-		bInset = False
+		bInset = 0
 
 	# inlineHeader - bInline2 is used alongside bInline1 to continue adding paragraphs until a blank line is encountered
 	if i.startswith("***"):
-		bInline1 = True
+		bInline1 = 1
 		i = i.replace("***", "", 1)
 		k = i.index("***") - 1
 		inlineHeader["name"] = i[:k]
@@ -209,45 +215,61 @@ for x, i in htext:
 		continue
 
 	if bInline1:
-		inlineHeader["entries"].append(i)
+		if i.startswith("-"):
+			bInlineList = 1
+			unorderedList["items"].append(i[1:].strip())
+			continue
+		else:
+			inlineHeader["entries"].append(i)
 		continue
-	if bInline2:
-		indent()
-		add(inlineHeader)
-		bInline1, bInline2 = False, False
+
+	elif bInline2:
+		if bInlineList:
+			inlineHeader["entries"].append(unorderedList)
+			unorderedList = {"type": "list", "items": []}
+			bInlineList = False
+		indent(); add(inlineHeader)
+		bInline1, bInline2 = 0, 0
 		inlineHeader = {"type": "entries", "name": "", "entries": []}
 		continue
-	
-	# Headers - lines 227 through 252 detect if a line has a header in it, and then adjusts the nesting accordingly
-	if ii in h1:
-		h1c += 1
-		h2c, h3c, h4c = z
 
-	elif ii in h2:
+	# unorderedList - other half is at top of loops
+	if i.startswith("-"):
+		bList = 1
+		unorderedList["items"].append(i[1:].strip())
+		continue
+	
+	# Headers - detect if a line has a header in it, and then adjusts the nesting accordingly
+
+	if i.replace("##", "").strip() in h2:
 		h2c += 1
 		data[h1c]["entries"].append({"type": "section", "name": ii, "entries":[]})
 		h3c, h4c = z[1:]
-		h3_h2 = False
+		bh3_h2 = 0
 
-	elif ii in h3:
+	elif i.replace("###", "").strip() in h3:
 		h3c += 1
 		h4c = 0
 		if not h2c:
-			h3_h2 = True
+			bh3_h2 = 1
 			h3d.append(ii)
 			data[h1c]["entries"].append({"type": "entries", "name": ii, "entries": []})
 		else:
 			data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
-
-	elif ii in h4:
+	
+	elif i.replace("####", "").strip() in h4:
 		if not h2c:
 			data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
 		else:
 			data[h1c]["entries"][-1]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
 		h4c += 1
 	
-	# if it isn't a header and the line is a normal line, it gets add()-ed here
-	else: add(i, True)
+	elif ii in h1:
+		h1c += 1
+		h2c, h3c, h4c = z
+
+	# if it isn't a header and the line is a normal line, it gets add()-ed here; extra fail-safe against empty lines
+	elif i != "": add(i)
 
 # Reparses the headers in (x, i) format where x is the htext index and i is the actual header
 h1, h2, h3, h4 = [[(x, i.replace("#"*h,"").strip()) for x, i in htext if i.startswith("#"*h + " ")] for h in range(1,5)]
