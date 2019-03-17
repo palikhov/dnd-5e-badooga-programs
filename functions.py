@@ -4,7 +4,7 @@ from fractions import Fraction
 
 """
 This file was made by badooga for your convenience. Just import what you need from this module into whatever file you are using, and you'll be able to use these functions with ease.
-You are free to distribute this file wherever you want (the most updated version can be found at https://github.com/badooga/Python-Files) - just give me credit when doing so.
+You are free to distribute this file wherever you want (the most updated version can be found at https://github.com/badooga/Programs) - just give me credit when doing so.
 """
 #For all input-related functions, prompt = what you want to ask
 
@@ -153,18 +153,16 @@ def input_num(prompt="", float_or_int=False, bound_lower=False, bound_upper=Fals
     """
     bound = [bound_lower, bound_upper]
     inclusive = [inclusive_lower, inclusive_upper]
-    numbers = [str(i) for i in range(0,10)] + ["-"]
 
     input_type_2 = ""
     inclusive_0 = ""
     inclusive_1 = ""
     input_type = "number"
+    types = [float, int]
 
-    if float_or_int == float:
-        input_type = "float"
-    elif float_or_int == int:
-        input_type = "integer"
-        input_type_2 = "n"
+    if float_or_int in types:
+        input_type = ["float", "integer"][types.index(float_or_int)]
+    if input_type == "integer": input_type_2 = "n"
     if inclusive[0]:
         inclusive_0 = "or equal to "
     if inclusive[1]:
@@ -174,24 +172,15 @@ def input_num(prompt="", float_or_int=False, bound_lower=False, bound_upper=Fals
     bound_error = "Please input a{} {} ".format(input_type_2, input_type) + "greater than " + inclusive_0 + "{} ".format(bound[0]) + "and less than " + inclusive_1 + "{}.".format(bound[1])
 
     while True:
-        num_input = input(prompt)
         try:
-            if float_or_int == float:
-                num_input = float(Fraction(num_input))
+            num_input = input(prompt)
+            if float_or_int == float: num_input = float(num_input)
             elif float_or_int == int:
-                for j in num_input:
-                    if j not in numbers:
-                        raise TypeError
-                else:
-                    num_input = int(num_input)   
-            else: 
-                try:
-                    if int(num_input) == float(num_input):
-                        num_input = int(num_input)
-                    else:
-                        raise TypeError
-                except:
-                    num_input = float(Fraction(num_input))
+                if "." in num_input: raise TypeError
+                num_input = int(num_input)
+            else:
+                num_input = float(num_input)
+                if int(num_input) == num_input: num_input = int(num_input)
         except:
             print(invalid_input)
             continue
@@ -209,31 +198,21 @@ def input_num(prompt="", float_or_int=False, bound_lower=False, bound_upper=Fals
             else:
                 break
         else:
-            if inclusive[0] and inclusive[1]:
-                if not bound[0] <= num_input <= bound[1]:
-                    print(bound_error)
-                else:
-                    break
-            elif inclusive[0]:
-                if not bound[0] <= num_input < bound[1]:
-                    print(bound_error)
-                else:
-                    break
-            elif inclusive[1]:
-                if not bound[0] < num_input <= bound[1]:
-                    print(bound_error)
-                else:
-                    break
-            else:
-                if not bound[0] < num_input < bound[1]:
-                    print()
-                else:
-                    break
+            if inclusive[0] and inclusive[1] and bound[0] <= num_input <= bound[1]:
+                break
+            elif inclusive[0] and bound[0] <= num_input < bound[1]:
+                break
+            elif inclusive[1] and bound[0] < num_input <= bound[1]:
+                break
+            elif not bound[0] < num_input < bound[1]:
+                break
+            print(bound_error)
+
     if convert_string:
         num_input = str(num_input)
     return num_input
 
-def input_str(prompt="", nums_allowed=False, length=False, minimum=False):
+def input_str(prompt="", nums_allowed=True, length=False, minimum=False):
     """
     Asks for input, only accepts a non-empty string. If an invalid input is given, it asks for it again until it gets what you want.
     nums_allowed: if True, integers are allowed in the input.
