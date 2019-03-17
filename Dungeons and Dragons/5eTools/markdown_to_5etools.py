@@ -119,7 +119,7 @@ def indent():
 	elif h2c > 0: iter(2)
 	elif h1c > 0: iter(3)
 
-for x, i in htext: #htext[:300]:
+for x, i in htext:
 	# Resets a few things back to default + skips to the next line when it detects a blank line
 	# As the first line is always going to be a h1 header and is already accounted for on line 65, it can be skipped
 	if not x or i == "":
