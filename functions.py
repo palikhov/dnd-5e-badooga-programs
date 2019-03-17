@@ -198,13 +198,13 @@ def input_num(prompt="", float_or_int=False, bound_lower=False, bound_upper=Fals
             else:
                 break
         else:
+            if bound[0] < num_input < bound[1]:
+                break
             if inclusive[0] and inclusive[1] and bound[0] <= num_input <= bound[1]:
                 break
             elif inclusive[0] and bound[0] <= num_input < bound[1]:
                 break
             elif inclusive[1] and bound[0] < num_input <= bound[1]:
-                break
-            elif not bound[0] < num_input < bound[1]:
                 break
             print(bound_error)
 
