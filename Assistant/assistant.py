@@ -14,6 +14,15 @@ def natural_key(string_): #used to properly sort file names
     """See http://www.codinghorror.com/blog/archives/001018.html"""
     return [int(s) if s.isdigit() else s for s in rsplit(r'(\d+)', string_)]
 
+def openfile(filepath, filename):
+    try:
+        startfile(filepath + filename)
+    except:
+        try:
+            startfile(filepath + "\\" + filename)
+        except:
+            startfile(filepath + "/" + filename)
+
 #loading of saved data
 try:
     with open(dir_path + "\\assistant.p", "rb") as f:
@@ -75,8 +84,8 @@ try:
         print("\nYou have no reminders.")
     else:
         print("\nReminders:")
-        for r in r_list:
-            print(r)
+        for r in range(len(r_list)):
+            print("{}) ".format(r + 1) + r_list[r])
 except:
     print("\nYou have no reminders.")
     r_list = []
@@ -121,20 +130,14 @@ def music():
         if choice == "0":
             pass
         elif choice == "-1":
-            startfile(filepath_playlists + rchoice(playlist_list))
+            openfile(filepath_playlists, rchoice(playlist_list))
         elif choice == "":
             print("Invalid playlist name. Please try again.")
             continue
         else: #if a filename starts with what you enter, this will play that file; this works well if you start your filenames with the number of the song in the list
             for playlist in playlist_list:
                 if playlist.lower().startswith(choice.lower()):
-                    try:
-                        startfile(filepath_playlists + playlist)
-                    except:
-                        try:
-                            startfile(filepath_playlists + "\\" + playlist)
-                        except:
-                            startfile(filepath_playlists + "/" + playlist)
+                    openfile(filepath_playlists, playlist)
                     break
             else:
                 print("Error: File not found.")
@@ -148,17 +151,11 @@ def music():
             print("Invalid song name. Please try again.")
             continue
         elif choice == "-1":
-            startfile(filepath_songs + rchoice(song_list))            
+            openfile(filepath_songs, rchoice(song_list))            
         else: #if a filename starts with what you enter, this will play that file
             for song in song_list:
                 if song.lower().startswith(choice.lower()):
-                    try:
-                        startfile(filepath_songs + song)
-                    except:
-                        try:
-                            startfile(filepath_songs + "\\" + song)
-                        except:
-                            startfile(filepath_songs + "/" + song)
+                    openfile(filepath_songs, song)
                     break
             else:
                 print("Error: File not found.")
@@ -262,8 +259,8 @@ def reminders():
                 print("\nYou have no reminders.")
             else:
                 print("\nReminders:")
-                for r in r_list:
-                    print(r)
+                for r in range(len(r_list)):
+                    print("{}) ".format(r + 1) + r_list[r])
             break
                             
         elif command == 2:
