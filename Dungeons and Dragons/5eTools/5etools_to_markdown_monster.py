@@ -241,7 +241,7 @@ def monster(m):
 		sp = []
 		for t in z:
 			spt = []
-			spt.append("***{}.*** {}".format(t["name"], "\n>\n>".join(t["headerEntries"])))
+			spt.append("***{}.*** {}".format(t["name"], "\n>\n>".join(t["headerEntries"])) + "\n>" )
 			if "will" in t:
 				spt.append(slot["will"] + ", ".join(t["will"]))
 			if "daily" in t:
@@ -252,8 +252,8 @@ def monster(m):
 					spt.append(slot[i] + "{}: ".format(" ({} slot{})".format(t["spells"][i]["slots"], "s" if t["spells"][i]["slots"] > 1 else "") if "slots" in t["spells"][i] else ""))
 					spt[-1] += ", ".join(t["spells"][i]["spells"])
 			if "footerEntries" in t:
-				spt.append("\n>\n>".join(t["footerEntries"]))
-			sp.append("\n>\n>".join(spt + [""]))
+				spt.append("  \n>".join(t["footerEntries"]))
+			sp.append("  \n>".join(spt + [""]))
 		return sp
 
 	def traits():
