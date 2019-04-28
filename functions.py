@@ -257,7 +257,8 @@ def input_question(prompt="", choices=["y","n"], case_sensitive=False):
 
     while True:
         answer = input(prompt)
-        if (not case_sensitive and answer.lower() not in choices) or (case_sensitive and answer not in choices):
+        if not case_sensitive: answer = answer.lower()
+        if answer not in choices:
             print(invalid)
         else:
             return answer
