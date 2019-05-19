@@ -491,7 +491,7 @@ The original name of the Jade Temple has long since been forgotten. While the Bo
 
 ### Generic Features
 
-Pictured above is a map of the area. The corridors of the temple are partially carved out of natural caverns. They are either five or ten feet wide and always ten feet high. There is a gentle but noticeable decline towards area 4. The caverns are chilly and moist. The floors are muddy, uneven and slippery. Characters running or charging must succeed on a DC 10 Dexterity check or fall {@condition prone} at the end of their movement.
+The corridors of the temple are partially carved out of natural caverns. They are either five or ten feet wide and always ten feet high. There is a gentle but noticeable decline towards area 4. The caverns are chilly and moist. The floors are muddy, uneven and slippery. Characters running or charging must succeed on a DC 10 Dexterity check or fall {@condition prone} at the end of their movement.
 
 ***Light.*** Unless specified otherwise there is no other light source than that which the characters brought with them.
 
