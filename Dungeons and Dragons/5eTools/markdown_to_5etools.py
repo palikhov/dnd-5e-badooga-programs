@@ -289,12 +289,36 @@ for x, i in hlist:
 
 # Nests all of this data into the proper 5eTools format, with blank strings for you to fill in; if you are making a book, change "adventure" to "book"
 data = {
+	"_meta": {
+		"sources": [
+			{
+				"json": "",
+				"abbreviation": "",
+				"full": "",
+				"authors": [
+					""
+				],
+				"convertedBy": [
+					""
+				],
+				"version": "1.0.0",
+				"url": "https://github.com/TheGiddyLimit/homebrew",
+				"targetSchema": "1.0.0"
+			}
+		]
+	},
 	"adventure": [
 		{
 			"name": "",
 			"id": "",
 			"source": "",
-			"contents": headers
+			"contents": headers,
+			"level": {
+				"start": 1,
+				"end": 1
+			},
+			"published": "",
+			"storyline": ""
 		}
 	],
 	"adventureData": [
