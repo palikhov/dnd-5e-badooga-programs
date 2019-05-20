@@ -120,157 +120,162 @@ def indent():
 	elif h1c > 0: iter(3)
 
 for x, i in htext:
-	# Resets a few things back to default + skips to the next line when it detects a blank line
-	# As the first line is always going to be a h1 header and is already accounted for on line 65, it can be skipped
-	if not x or i == "":
-		if bTable:
-			add(table)
-			table = {"type": "table", "colLabels": [], "colStyles": [], "rows": []}
-			bTable = 0
-		if not x:
-			h1c += 1
-		if bList:
-			add(unorderedList)
-			unorderedList = {"type": "list", "items": []}
-			bList = 0
-		elif bInline1:
-			bInline1 = 0
-			bInline2 = 1
-		else:
-			continue
+	try:
+		# Resets a few things back to default + skips to the next line when it detects a blank line
+		# As the first line is always going to be a h1 header and is already accounted for on line 65, it can be skipped
+		if not x or i == "":
+			if bTable:
+				add(table)
+				table = {"type": "table", "colLabels": [], "colStyles": [], "rows": []}
+				bTable = 0
+			if not x:
+				h1c += 1
+			if bList:
+				add(unorderedList)
+				unorderedList = {"type": "list", "items": []}
+				bList = 0
+			elif bInline1:
+				bInline1 = 0
+				bInline2 = 1
+			else:
+				continue
 
-	i = i.strip()
-	ii = i.replace("#", "").strip()
+		i = i.strip()
+		ii = i.replace("#", "").strip()
 
-	# Formatting for a table - bTable is switched when the table starts and ends, bTable2 is used when there is an optional caption, and bTable3 is used to format the text-align
-	if not bTable and (i.startswith("#####") or i.startswith("|")):
-		bTable = 1
-		bTable3 = 1
-		if i.startswith("#####"):
-			bTable2 = 1
-			table["caption"] = ii.strip()
-			continue
-		else:
+		# Formatting for a table - bTable is switched when the table starts and ends, bTable2 is used when there is an optional caption, and bTable3 is used to format the text-align
+		if not bTable and (i.startswith("#####") or i.startswith("|")):
+			bTable = 1
+			bTable3 = 1
+			if i.startswith("#####"):
+				bTable2 = 1
+				table["caption"] = ii.strip()
+				continue
+			else:
+				table["colLabels"] = [t.strip() for t in i.split("|") if t != ""]
+				continue
+		elif bTable2:
+			bTable2 = 0
 			table["colLabels"] = [t.strip() for t in i.split("|") if t != ""]
 			continue
-	elif bTable2:
-		bTable2 = 0
-		table["colLabels"] = [t.strip() for t in i.split("|") if t != ""]
-		continue
-	elif bTable3:
-		talign = [t for t in i.split("|") if t != ""]
-		for k in talign:
-			if (k[0], k[-1]) == (":", ":"):
-				table["colStyles"].append("text-align-center")
-			elif k[-1] == ":":
-				table["colStyles"].append("text-align-right")
-			else:
-				table["colStyles"].append("text-align-left")
-		bTable3 = 0
-		continue
-	
-	elif i.startswith("|"):
-		table["rows"].append([t.strip() for t in i.split("|") if t.strip() != ""])
-		continue
-
-	# insetReadAloud - must come before inset
-	if i.startswith(">>"):
-		bRead = 1
-		insetReadAloud["entries"].append(i.replace(">>", "").strip())
-		continue
-	elif bRead:
-		add(insetReadAloud)
-		insetReadAloud = {"type": "insetReadaloud", "entries": []}
-		bRead = 0
-
-	# inset - both regular insets and lists within insets (line 181); must come before inlineHeader and unorderedList
-	if i.startswith(">") or i.startswith(">-"):
-		if not bInset:
-			bInset = 1
-			inset["name"] = i.replace("#####", "").replace(">", "").strip()
-		else:
-			if i.startswith(">-"):
-				if not bListInset:
-					inset["entries"].append({"type": "list", "items": [i.replace(">-", "").strip()]})
-					li = len(inset["entries"]) - 1
-					bListInset = 1
+		elif bTable3:
+			talign = [t for t in i.split("|") if t != ""]
+			for k in talign:
+				if (k[0], k[-1]) == (":", ":"):
+					table["colStyles"].append("text-align-center")
+				elif k[-1] == ":":
+					table["colStyles"].append("text-align-right")
 				else:
-					inset["entries"][li]["items"].append(i.replace(">-", "").strip())
+					table["colStyles"].append("text-align-left")
+			bTable3 = 0
+			continue
+		
+		elif i.startswith("|"):
+			table["rows"].append([t.strip() for t in i.split("|") if t.strip() != ""])
+			continue
+
+		# insetReadAloud - must come before inset
+		if i.startswith(">>"):
+			bRead = 1
+			insetReadAloud["entries"].append(i.replace(">>", "").strip())
+			continue
+		elif bRead:
+			add(insetReadAloud)
+			insetReadAloud = {"type": "insetReadaloud", "entries": []}
+			bRead = 0
+
+		# inset - both regular insets and lists within insets (line 181); must come before inlineHeader and unorderedList
+		if i.startswith(">") or i.startswith(">-"):
+			if not bInset:
+				bInset = 1
+				inset["name"] = i.replace("#####", "").replace(">", "").strip()
 			else:
-				bListInset = 0
-				inset["entries"].append(i.replace(">", "").strip())
-		continue
-	elif bInset:
-		add(inset)
-		inset = {"type": "inset", "name": "", "entries": []}
-		bInset = 0
+				if i.startswith(">-"):
+					if not bListInset:
+						inset["entries"].append({"type": "list", "items": [i.replace(">-", "").strip()]})
+						li = len(inset["entries"]) - 1
+						bListInset = 1
+					else:
+						inset["entries"][li]["items"].append(i.replace(">-", "").strip())
+				else:
+					bListInset = 0
+					inset["entries"].append(i.replace(">", "").strip())
+			continue
+		elif bInset:
+			add(inset)
+			inset = {"type": "inset", "name": "", "entries": []}
+			bInset = 0
 
-	# inlineHeader - bInline2 is used alongside bInline1 to continue adding paragraphs until a blank line is encountered
-	if i.startswith("***"):
-		bInline1 = 1
-		i = i.replace("***", "", 1)
-		k = i.index("***") - 1
-		inlineHeader["name"] = i[:k]
-		inlineHeader["entries"].append(i[k+5:])
-		continue
+		# inlineHeader - bInline2 is used alongside bInline1 to continue adding paragraphs until a blank line is encountered
+		if i.startswith("***"):
+			bInline1 = 1
+			i = i.replace("***", "", 1)
+			k = i.index("***") - 1
+			inlineHeader["name"] = i[:k]
+			inlineHeader["entries"].append(i[k+5:])
+			continue
 
-	if bInline1:
+		if bInline1:
+			if i.startswith("-"):
+				bInlineList = 1
+				unorderedList["items"].append(i[1:].strip())
+				continue
+			else:
+				inlineHeader["entries"].append(i)
+			continue
+
+		elif bInline2:
+			if bInlineList:
+				inlineHeader["entries"].append(unorderedList)
+				unorderedList = {"type": "list", "items": []}
+				bInlineList = False
+			indent(); add(inlineHeader)
+			bInline1, bInline2 = 0, 0
+			inlineHeader = {"type": "entries", "name": "", "entries": []}
+			continue
+
+		# unorderedList - other half is at top of loops
 		if i.startswith("-"):
-			bInlineList = 1
+			bList = 1
 			unorderedList["items"].append(i[1:].strip())
 			continue
-		else:
-			inlineHeader["entries"].append(i)
-		continue
+		
+		# Headers - detect if a line has a header in it, and then adjusts the nesting accordingly
 
-	elif bInline2:
-		if bInlineList:
-			inlineHeader["entries"].append(unorderedList)
-			unorderedList = {"type": "list", "items": []}
-			bInlineList = False
-		indent(); add(inlineHeader)
-		bInline1, bInline2 = 0, 0
-		inlineHeader = {"type": "entries", "name": "", "entries": []}
-		continue
+		if i.replace("##", "").strip() in h2:
+			h2c += 1
+			data[h1c]["entries"].append({"type": "section", "name": ii, "entries":[]})
+			h3c, h4c = z[1:]
+			bh3_h2 = 0
 
-	# unorderedList - other half is at top of loops
-	if i.startswith("-"):
-		bList = 1
-		unorderedList["items"].append(i[1:].strip())
-		continue
-	
-	# Headers - detect if a line has a header in it, and then adjusts the nesting accordingly
+		elif i.replace("###", "").strip() in h3:
+			h3c += 1
+			h4c = 0
+			if not h2c:
+				bh3_h2 = 1
+				h3d.append(ii)
+				data[h1c]["entries"].append({"type": "entries", "name": ii, "entries": []})
+			else:
+				data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
+		
+		elif i.replace("####", "").strip() in h4:
+			if not h2c:
+				data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
+			else:
+				data[h1c]["entries"][-1]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
+			h4c += 1
+		
+		elif ii in h1:
+			h1c += 1
+			h2c, h3c, h4c = z
 
-	if i.replace("##", "").strip() in h2:
-		h2c += 1
-		data[h1c]["entries"].append({"type": "section", "name": ii, "entries":[]})
-		h3c, h4c = z[1:]
-		bh3_h2 = 0
-
-	elif i.replace("###", "").strip() in h3:
-		h3c += 1
-		h4c = 0
-		if not h2c:
-			bh3_h2 = 1
-			h3d.append(ii)
-			data[h1c]["entries"].append({"type": "entries", "name": ii, "entries": []})
-		else:
-			data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
-	
-	elif i.replace("####", "").strip() in h4:
-		if not h2c:
-			data[h1c]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
-		else:
-			data[h1c]["entries"][-1]["entries"][-1]["entries"].append({"type": "entries", "name": ii, "entries": []})
-		h4c += 1
-	
-	elif ii in h1:
-		h1c += 1
-		h2c, h3c, h4c = z
-
-	# if it isn't a header and the line is a normal line, it gets add()-ed here; extra fail-safe against empty lines
-	elif i != "": add(i)
-
+		# if it isn't a header and the line is a normal line, it gets add()-ed here; extra fail-safe against empty lines
+		elif i != "": add(i)
+	except Exception as e:
+		print(e)
+		print("Problem found on or related to markdown line", x)
+		break
+		
 # Reparses the headers in (x, i) format where x is the htext index and i is the actual header
 h1, h2, h3, h4 = [[(x, i.replace("#"*h,"").strip()) for x, i in htext if i.startswith("#"*h + " ")] for h in range(1,5)]
 
@@ -350,4 +355,4 @@ data = eval("{}".format(data))
 
 # Writes your new file to a 5eTools JSON file
 with open("{}.json".format(argv[1][:-3]), "w") as f:
-	json.dump(data, f)
+	json.dump(data, f, indent="\t")
