@@ -78,7 +78,7 @@ h1c, h2c, h3c, h4c = -1, *z
 
 # Initializes flags for each type of special formatting; the "b" stands for "boolean", but the actual var is an integer so that I don't have to type a boolean every time every time; bh3_h2 is a special flag used when detecting h3 headers that don't have h2 parents
 
-bInset, bRead, bInline1, bInline2, bList, bh3_h2, bListInset, bTable, bTable2, bTable3, bInlineList = [0] * 11
+bInset, bInset2, bRead, bRead2, bInline1, bInline2, bList, bh3_h2, bListInset, bTable, bTable2, bTable3, bInlineList = [0] * 13
 
 # Initializes structure used for each type of special formatting
 
@@ -128,8 +128,9 @@ for x, i in htext:
 				add(table)
 				table = {"type": "table", "colLabels": [], "colStyles": [], "rows": []}
 				bTable = 0
-			if not x:
-				h1c += 1
+			if bInset: bInset2 = 1
+			if bRead: bRead2 = 1
+			if not x: h1c += 1
 			if bList:
 				add(unorderedList)
 				unorderedList = {"type": "list", "items": []}
@@ -137,8 +138,7 @@ for x, i in htext:
 			elif bInline1:
 				bInline1 = 0
 				bInline2 = 1
-			else:
-				continue
+			else: continue
 
 		i = i.strip()
 		ii = i.replace("#", "").strip()
@@ -175,6 +175,10 @@ for x, i in htext:
 			continue
 
 		# insetReadAloud - must come before inset
+		if bRead2:
+			add(insetReadAloud)
+			insetReadAloud = {"type": "insetReadaloud", "entries": []}
+			bRead, bRead2 = 0, 0
 		if i.startswith(">>"):
 			bRead = 1
 			insetReadAloud["entries"].append(i.replace(">>", "").strip())
@@ -185,6 +189,10 @@ for x, i in htext:
 			bRead = 0
 
 		# inset - both regular insets and lists within insets (line 181); must come before inlineHeader and unorderedList
+		if bInset2:
+			add(inset)
+			inset = {"type": "inset", "name": "", "entries": []}
+			bInset, bInset2 = 0, 0
 		if i.startswith(">") or i.startswith(">-"):
 			if not bInset:
 				bInset = 1
