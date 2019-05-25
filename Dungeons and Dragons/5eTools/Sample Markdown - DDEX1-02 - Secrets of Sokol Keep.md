@@ -6,7 +6,7 @@ Decades have passed since Sokol Keep was reclaimed, and a small garrison was pla
 ## Introduction
 Welcome to *Secrets of Sokol Keep*, a D&D Expeditions adventure, part of the official D&D Adventurers League organized play system and the Tyranny of Dragons storyline season.
 
-**This adventure is designed for three to seven 2nd level characters, and is optimized for five 2nd level characters**. Characters outside this level range cannot participate in this adventure. Players with ineligible characters can create a new 1st-level character or use a pregenerated character.
+**This adventure is designed for three to seven 1st-4th level characters, and is optimized for five 2nd level characters**. Characters outside this level range cannot participate in this adventure. Players with ineligible characters can create a new 1st-level character or use a pregenerated character.
 
 The adventure starts in the city of Phlan in the Laughing Goblin at the docks, but quickly takes the characters to Sokol Keep on Thorn Island near the harbor of Phlan.
 
