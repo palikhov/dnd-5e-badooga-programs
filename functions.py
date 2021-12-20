@@ -3,8 +3,7 @@ from subprocess import check_call
 from fractions import Fraction
 
 """
-This file was made by badooga for your convenience. Just import what you need from this module into whatever file you are using, and you'll be able to use these functions with ease.
-You are free to distribute this file wherever you want (the most updated version can be found at https://github.com/badooga/Programs) - just give me credit when doing so.
+This file was made by badooga years ago as programming practice.
 """
 #For all input-related functions, prompt = what you want to ask
 
